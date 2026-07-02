@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Search } from "lucide-react";
+
 export default function SearchBar() {
   const [destination, setDestination] = useState("");
 
@@ -26,9 +28,10 @@ export default function SearchBar() {
         className="rounded-lg border border-gray-300 px-4 py-3 outline-none"
       />
 
-      <button className="rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800">
-        Search
-      </button>
+        <button className="flex items-center gap-2 rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800">
+        <Search size={18} />
+         Search
+         </button>
     </div>
   );
 }
