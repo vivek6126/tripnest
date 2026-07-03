@@ -1,65 +1,60 @@
 "use client";
-import Link from "next/link";
+
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import PropertyCard from "@/components/PropertyCard";
+
+type Property = {
+  id: number;
+  title: string;
+  location: string;
+  rating: number;
+  price: number;
+  image: string;
+};
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
 
-  const destination = searchParams.get("destination");
+  const destination =
+    searchParams.get("destination")?.trim() ?? "";
+
   const guests = searchParams.get("guests");
   const date = searchParams.get("date");
 
-  const properties = [
-    {
-      id: 1,
-      title: "Ocean View Villa",
-      location: "Bali, Indonesia",
-      rating: 4.9,
-      price: 180,
-      image: "/hotel1.jpg",
-    },
-    {
-      id: 2,
-      title: "Mountain Escape Lodge",
-      location: "Swiss Alps, Switzerland",
-      rating: 4.7,
-      price: 240,
-      image: "/hotel2.jpg",
-    },
-    {
-      id: 3,
-      title: "City Lights Hotel",
-      location: "Tokyo, Japan",
-      rating: 4.5,
-      price: 150,
-      image: "/hotel3.jpg",
-    },
-    {
-      id: 4,
-      title: "Desert Luxury Resort",
-      location: "Dubai, UAE",
-      rating: 4.8,
-      price: 320,
-      image: "/hotel4.jpg",
-    },
-    {
-      id: 5,
-      title: "Forest Retreat",
-      location: "Vancouver, Canada",
-      rating: 4.6,
-      price: 140,
-      image: "/hotel5.jpg",
-    },
-    {
-      id: 6,
-      title: "Beach Paradise Resort",
-      location: "Maldives",
-      rating: 5.0,
-      price: 450,
-      image: "/hotel6.jpg",
-    },
-  ];
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadProperties() {
+      try {
+        setIsLoading(true);
+        setError("");
+        const response = await fetch("/api/properties");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch properties.");
+        }
+
+        const data = await response.json();
+
+        setProperties(data); 
+
+        // Simulate API request
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        } catch (error) {
+        console.error(error);
+        setError("Something went wrong while loading properties.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadProperties();
+  }, []);
 
   const filteredProperties = destination
     ? properties.filter(
@@ -72,8 +67,27 @@ export default function SearchPage() {
             .includes(destination.toLowerCase())
       )
     : properties;
-  
-    
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center">
+        <h1 className="text-3xl font-bold">
+          Loading properties...
+        </h1>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center">
+        <h1 className="text-2xl text-red-500">
+          {error}
+        </h1>
+      </main>
+    );
+  }
+
   if (filteredProperties.length === 0) {
     return (
       <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
@@ -91,14 +105,12 @@ export default function SearchPage() {
         </p>
 
         <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6 text-left">
-          <h3 className="mb-3 font-semibold">
-            Try:
-          </h3>
+          <h3 className="mb-3 font-semibold">Try:</h3>
 
           <ul className="space-y-2 text-zinc-400">
-            <li>• Checking the spelling</li>
-            <li>• Searching a nearby city</li>
-            <li>• Choosing another destination</li>
+            <li>• Check the spelling</li>
+            <li>• Search a nearby city</li>
+            <li>• Try another destination</li>
           </ul>
         </div>
 
@@ -112,16 +124,18 @@ export default function SearchPage() {
     );
   }
 
-
   return (
     <main className="mx-auto max-w-7xl p-8">
-      <h1 className="mb-2 text-4xl font-bold">Search Results</h1>
+      <h1 className="mb-2 text-4xl font-bold">
+        Search Results
+      </h1>
 
       <p className="mb-8 text-zinc-400">
-        Destination: {destination} | Guests: {guests} | Date: {date}
+        Destination: {destination || "All"} | Guests: {guests} |
+        Date: {date || "Any"}
       </p>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {filteredProperties.map((property) => (
           <PropertyCard
             key={property.id}
