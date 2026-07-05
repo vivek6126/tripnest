@@ -1,22 +1,23 @@
 import { NextResponse } from "next/server";
-import { properties } from "@/lib/data/properties";
+import { supabase } from "@/lib/supabase";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
+export async function GET() {
+  try {
+    const { data, error } = await supabase
+      .from("properties")
+      .select("*");
 
-  const destination = url.searchParams.get("destination");
+    if (error) {
+      throw error;
+    }
 
-  const filteredProperties = destination
-    ? properties.filter(
-        (property) =>
-          property.location
-            .toLowerCase()
-            .includes(destination.toLowerCase()) ||
-          property.title
-            .toLowerCase()
-            .includes(destination.toLowerCase())
-      )
-    : properties;
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
 
-  return NextResponse.json(filteredProperties);
+    return NextResponse.json(
+      { message: "Failed to fetch properties" },
+      { status: 500 }
+    );
+  }
 }
