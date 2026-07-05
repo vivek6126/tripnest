@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { getProperties, type Property } from "@/lib/api/properties";
 import Link from "next/link";
 import PropertyCard from "@/components/PropertyCard";
 
-type Property = {
-  id: number;
-  title: string;
-  location: string;
-  rating: number;
-  price: number;
-  image: string;
-};
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -29,44 +22,27 @@ export default function SearchPage() {
 
   useEffect(() => {
     async function loadProperties() {
-      try {
+      try {      
         setIsLoading(true);
         setError("");
-        const response = await fetch("/api/properties");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch properties.");
-        }
+        const properties  = await getProperties(destination);
 
-        const data = await response.json();
-
-        setProperties(data); 
-
-        // Simulate API request
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        } catch (error) {
+        setProperties(properties);
+      }
+      catch (error) {
         console.error(error);
         setError("Something went wrong while loading properties.");
-      } finally {
-        setIsLoading(false);
       }
+      finally {
+        setIsLoading(false);
+      }      
     }
 
     loadProperties();
   }, []);
 
-  const filteredProperties = destination
-    ? properties.filter(
-        (property) =>
-          property.location
-            .toLowerCase()
-            .includes(destination.toLowerCase()) ||
-          property.title
-            .toLowerCase()
-            .includes(destination.toLowerCase())
-      )
-    : properties;
+
 
   if (isLoading) {
     return (
@@ -88,7 +64,7 @@ export default function SearchPage() {
     );
   }
 
-  if (filteredProperties.length === 0) {
+  if (properties.length === 0) {
     return (
       <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
         <h1 className="mb-4 text-5xl">😕</h1>
@@ -136,7 +112,7 @@ export default function SearchPage() {
       </p>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredProperties.map((property) => (
+        {properties.map((property) => (
           <PropertyCard
             key={property.id}
             title={property.title}
