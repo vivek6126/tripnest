@@ -1,8 +1,9 @@
 import { supabase } from "@/lib/supabase";
+import type { Property } from "@/lib/api/properties";
 
 export async function getPropertiesFromDB(
   destination?: string
-) {
+): Promise<Property[]> {
   let query = supabase
     .from("properties")
     .select("*");
@@ -25,7 +26,7 @@ export async function getPropertiesFromDB(
 
 export async function getPropertyById(
   id: number
-) {
+): Promise<Property> {
   const { data, error } = await supabase
     .from("properties")
     .select("*")
