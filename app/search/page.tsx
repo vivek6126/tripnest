@@ -113,14 +113,19 @@ export default function SearchPage() {
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {properties.map((property) => (
-          <PropertyCard
+          <Link
             key={property.id}
-            title={property.title}
-            location={property.location}
-            rating={property.rating}
-            price={property.price}
-            image={property.image}
-          />
+            href={`/properties/${property.id}`}
+          >
+            <PropertyCard
+              id={property.id}
+              title={property.title}
+              location={property.location}
+              rating={property.rating}
+              price={property.price}
+              image={property.image}
+            />
+          </Link>
         ))}
       </div>
     </main>

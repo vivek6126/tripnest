@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 type PropertyCardProps = {
+  id: number;
   title: string;
   location: string;
   rating: number;

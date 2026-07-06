@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getPropertiesFromDB } from "@/lib/db/properties";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -8,27 +8,11 @@ export async function GET(request: Request) {
     searchParams.get("destination")?.trim() ?? "";
 
   try {
-    // Start building the query
-    let query = supabase
-      .from("properties")
-      .select("*");
+    const properties = await getPropertiesFromDB(
+      destination
+    );
 
-    // Add filters only if needed
-    if (destination) {
-      query = query.ilike(
-        "location",
-        `%${destination}%`
-      );
-    }
-
-    // Execute the final query
-    const { data, error } = await query;
-
-    if (error) {
-      throw error;
-    }
-
-    return NextResponse.json(data);
+    return NextResponse.json(properties);
   } catch (error) {
     console.error(error);
 

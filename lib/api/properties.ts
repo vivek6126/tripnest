@@ -2,9 +2,12 @@ export type Property = {
   id: number;
   title: string;
   location: string;
-  rating: number;
+  description: string;
   price: number;
+  rating: number;
   image: string;
+  bedrooms: number;
+  amenities: string[];
 };
 
 export async function getProperties(
@@ -20,6 +23,20 @@ export async function getProperties(
 
   if (!response.ok) {
     throw new Error("Failed to fetch properties.");
+  }
+
+  return await response.json();
+}
+
+export async function getProperty(
+  id: number
+): Promise<Property> {
+  const response = await fetch(
+    `/api/properties/${id}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch property.");
   }
 
   return await response.json();
