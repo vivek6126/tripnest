@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 type BookingCardProps = {
   propertyId: number;
@@ -14,6 +15,8 @@ export default function BookingCard({
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+  const [isBooking, setIsBooking] = useState(false);
+
 
   const today = new Date()
     .toISOString()
@@ -49,6 +52,8 @@ export default function BookingCard({
 
 
   async function handleBooking() {
+  setIsBooking(true);
+
   try {
     const response = await fetch("/api/bookings", {
       method: "POST",
@@ -69,13 +74,19 @@ export default function BookingCard({
       throw new Error(result.message);
     }
 
-    alert(result.message ?? "Booking created!");
+    toast.success(
+      result.message ?? "Booking created successfully!"
+    );
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      toast.error(error.message);
     }
+  } finally {
+    setIsBooking(false);
   }
 }
+
+
   return (
     <aside className="rounded-xl border p-6 shadow-sm">
       <p className="text-3xl font-bold">
@@ -214,11 +225,13 @@ export default function BookingCard({
       )}
 
     <button
-      type="button"
-      disabled={!isBookingValid}
-      onClick={handleBooking}
-      className="mt-6 w-full rounded-lg bg-black px-4 py-3 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
-    >Book Now</button>
+  type="button"
+  disabled={!isBookingValid || isBooking}
+  onClick={handleBooking}
+  className="mt-6 w-full rounded-lg bg-black px-4 py-3 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
+>
+  {isBooking ? "Booking..." : "Book Now"}
+</button>
     </aside>
   );
 }
