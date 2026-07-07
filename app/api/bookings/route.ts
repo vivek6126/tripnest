@@ -20,11 +20,16 @@ export async function POST(
       { status: 201 }
     );
   } catch (error) {
-    console.error(error);
+        console.error(error);
 
-    return NextResponse.json(
-      { message: "Failed to create booking." },
-      { status: 500 }
-    );
-  }
+         const message =
+         error instanceof Error
+            ? error.message
+            :"Failed to create booking.";
+
+        return NextResponse.json(
+            { message },
+            { status: 400 }
+        );
+    }
 }

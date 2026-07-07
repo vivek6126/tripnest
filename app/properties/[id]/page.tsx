@@ -80,6 +80,7 @@ export default async function PropertyPage({
         {/* Right Section */}
         <aside>
           <BookingCard
+            propertyId={property.id}
             price={property.price}
           />
         </aside>

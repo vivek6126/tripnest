@@ -3,10 +3,12 @@
 import { useState } from "react";
 
 type BookingCardProps = {
+  propertyId: number;
   price: number;
 };
 
 export default function BookingCard({
+  propertyId,
   price,
 }: BookingCardProps) {
   const [checkIn, setCheckIn] = useState("");
@@ -45,6 +47,35 @@ export default function BookingCard({
     checkOut !== "" &&
     nights > 0;
 
+
+  async function handleBooking() {
+  try {
+    const response = await fetch("/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        propertyId,
+        checkIn,
+        checkOut,
+        guests,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message);
+    }
+
+    alert(result.message ?? "Booking created!");
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    }
+  }
+}
   return (
     <aside className="rounded-xl border p-6 shadow-sm">
       <p className="text-3xl font-bold">
@@ -182,12 +213,12 @@ export default function BookingCard({
         </p>
       )}
 
-      <button
-        disabled={!isBookingValid}
-        className="mt-6 w-full rounded-lg bg-black px-4 py-3 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
-      >
-        Book Now
-      </button>
+    <button
+      type="button"
+      disabled={!isBookingValid}
+      onClick={handleBooking}
+      className="mt-6 w-full rounded-lg bg-black px-4 py-3 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
+    >Book Now</button>
     </aside>
   );
 }
