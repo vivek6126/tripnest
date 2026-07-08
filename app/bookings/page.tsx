@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getBookingsByUser } from "@/lib/db/bookings";
+import BookingCard from "@/components/bookings/BookingCard";
+import BookingList from "@/components/bookings/BookingList";
+
 
 export default async function BookingsPage() {
   const supabase = await createClient();
@@ -13,19 +16,16 @@ export default async function BookingsPage() {
     redirect("/login");
   }
 
-  const bookings = await getBookingsByUser(
-    user.id
-  );
+ const bookings = await getBookingsByUser(
+  user.id
+) ?? [];
 
   return (
     <main className="mx-auto max-w-5xl p-6">
       <h1 className="mb-6 text-3xl font-bold">
         My Bookings
       </h1>
-
-      <pre>
-        {JSON.stringify(bookings, null, 2)}
-      </pre>
+     <BookingList bookings={bookings} />
     </main>
   );
 }

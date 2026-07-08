@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { navigationItems } from "@/constants/navigation";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "./LogoutButton"
 
@@ -21,11 +20,15 @@ export default async function Navbar({
       <h1 className="text-2xl font-bold">{title}</h1>
 
       <div className="flex gap-6">
-        {navigationItems.map((item) => (
-          <Link key={item.id} href={item.href}>
-            {item.label}
+        <Link href="/">
+          Home
+        </Link>
+
+        {user && (
+          <Link href="/bookings">
+            My Bookings
           </Link>
-        ))}
+        )}
       </div>
 
       {user ? (

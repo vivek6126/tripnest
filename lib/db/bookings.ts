@@ -60,7 +60,7 @@ export async function getBookingsByUser(
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("boo  kings")
+    .from("bookings")
     .select(`
       *,
       properties (
@@ -81,4 +81,22 @@ export async function getBookingsByUser(
   }
 
   return data;
+}
+
+
+export async function deleteBooking(
+  bookingId: number,
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", bookingId)
+    .eq("user_id", userId);
+
+  if (error) {
+    throw error;
+  }
 }
