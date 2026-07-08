@@ -1,88 +1,60 @@
-# TripNest
+# TripNest 🏨
 
-TripNest is a modern hotel booking application built with Next.js, React, TypeScript, Tailwind CSS, and Supabase. It allows users to browse properties, view detailed listings, and securely book stays with authentication and booking validation.
+TripNest is a full-stack hotel booking application built with modern web technologies.
 
-## Features
+Users can browse available properties, create bookings, view their bookings, and manage cancellations through an authenticated account system.
 
-* Browse hotel and property listings
-* Property detail pages
-* Responsive booking card
-* Dynamic total price calculation
-* Date selection with guest count
-* Booking creation using Supabase
-* Prevent overlapping bookings
-* User authentication (Sign Up, Login, Logout)
-* Bookings linked to authenticated users
-* Toast notifications
-* Loading states for API requests
+---
 
-## Tech Stack
+## 🚀 Features
+
+### Authentication
+- User signup and login
+- Supabase authentication
+- Server-side session handling
+- Protected booking actions
+
+### Property Browsing
+- View available properties
+- Property details
+- Responsive property cards
+
+### Booking System
+- Create bookings
+- Store booking information in Supabase
+- View personal booking history
+- Cancel bookings with confirmation dialog
+
+### UI / UX
+- Responsive design
+- Toast notifications
+- Reusable UI components
+- Confirmation dialogs
+- Consistent component system using shadcn/ui
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-
-* Next.js
-* React
-* TypeScript
-* Tailwind CSS
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
 
 ### Backend
+- Next.js API Routes
+- Supabase
 
-* Next.js Route Handlers
-* Supabase Database
-* Supabase Authentication
+### Database
+- PostgreSQL (Supabase)
 
-### UI
+### Other Tools
+- Sonner (Toast notifications)
+- Lucide Icons
+- Git & GitHub
 
-* Sonner (Toast Notifications)
+---
 
-## Project Structure
-
-```text
-app/
-components/
-lib/
-  db/
-  supabase/
-constants/
-public/
-```
-
-## Current Architecture
-
-* Server Components for secure data fetching
-* Client Components for interactive UI
-* Authentication using Supabase SSR
-* Protected API routes
-* Database-driven booking validation
-
-## Future Improvements
-
-* My Bookings page
-* Availability calendar
-* Booking cancellation
-* User profiles
-* Wishlist
-* Property search & filters
-* Payments
-* Admin dashboard
-* Reviews and ratings
-* Image gallery
-* Email confirmations
-* Deployment
-
-## Learning Goals
-
-This project is being built from scratch to learn modern full-stack development with:
-
-* Next.js App Router
-* React
-* TypeScript
-* Supabase
-* Authentication
-* API design
-* Database design
-* Clean architecture
-* Production-ready development practices
-
-```
-```
+## 📂 Project Structure

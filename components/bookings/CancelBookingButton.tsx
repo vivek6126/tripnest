@@ -1,5 +1,6 @@
 "use client";
-
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -13,15 +14,8 @@ export default function CancelBookingButton({
   const router = useRouter();
 
   async function handleCancel() {
-    const confirmed = window.confirm(
-      "Are you sure you want to cancel this booking?"
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    try {
+  
+     try {
       const response = await fetch(
         `/api/bookings/${bookingId}`,
         {
@@ -46,11 +40,15 @@ export default function CancelBookingButton({
   }
 
   return (
-    <button
-      onClick={handleCancel}
-      className="mt-4 w-full rounded-lg bg-red-600 py-2 text-white hover:bg-red-700"
-    >
+  <ConfirmDialog
+    title="Cancel Booking"
+    description="Are you sure you want to cancel this booking? This action cannot be undone."
+    confirmText="Cancel Booking"
+    onConfirm={handleCancel}
+  >
+    <Button variant="destructive">
       Cancel Booking
-    </button>
+    </Button>
+  </ConfirmDialog>
   );
 }
