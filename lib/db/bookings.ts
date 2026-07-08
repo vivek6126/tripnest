@@ -1,3 +1,4 @@
+import { createClient } from "@/lib/supabase/server";
 import { supabase } from "@/lib/supabase/client";
 
 type CreateBookingParams = {
@@ -44,6 +45,36 @@ export async function createBooking({
     })
     .select()
     .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+
+export async function getBookingsByUser(
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("boo  kings")
+    .select(`
+      *,
+      properties (
+        id,
+        title,
+        image,
+        location,
+        price
+      )
+    `)    
+    .eq("user_id", userId)
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (error) {
     throw error;
