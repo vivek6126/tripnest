@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import type { Property } from "@/lib/api/properties";
 
 export async function getPropertiesFromDB(

@@ -1,6 +1,7 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 type CreateBookingParams = {
+  userId: string;
   propertyId: number;
   checkIn: string;
   checkOut: string;
@@ -8,6 +9,7 @@ type CreateBookingParams = {
 };
 
 export async function createBooking({
+    userId,
   propertyId,
   checkIn,
   checkOut,
@@ -34,6 +36,7 @@ export async function createBooking({
   const { data, error } = await supabase
     .from("bookings")
     .insert({
+      user_id: userId,
       property_id: propertyId,
       check_in: checkIn,
       check_out: checkOut,

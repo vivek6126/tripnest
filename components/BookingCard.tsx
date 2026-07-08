@@ -232,6 +232,6 @@ export default function BookingCard({
 >
   {isBooking ? "Booking..." : "Book Now"}
 </button>
-    </aside>
+    </aside>  
   );
 }

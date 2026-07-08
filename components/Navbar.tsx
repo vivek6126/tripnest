@@ -1,20 +1,20 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import { navigationItems } from "@/constants/navigation";
+import { createClient } from "@/lib/supabase/server";
+import LogoutButton from "./LogoutButton"
 
 type NavbarProps = {
   title: string;
 };
 
-export default function Navbar({ title }: NavbarProps) {
-  const [buttonText, setButtonText] = useState("Login");
+export default async function Navbar({
+  title,
+}: NavbarProps) {
+  const supabase = await createClient();
 
-  function changeButton() {
-    setButtonText(
-      buttonText === "Login" ? "Logout" : "Login"
-    );
-  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <nav className="flex items-center justify-between border-b p-4">
@@ -22,18 +22,37 @@ export default function Navbar({ title }: NavbarProps) {
 
       <div className="flex gap-6">
         {navigationItems.map((item) => (
-          <a key={item.id} href={item.href}>
+          <Link key={item.id} href={item.href}>
             {item.label}
-          </a>
+          </Link>
         ))}
       </div>
 
-      <button
-        onClick={changeButton}
-        className="rounded bg-black px-4 py-2 text-white"
-      >
-        {buttonText}
-      </button>
+      {user ? (
+        <div className="flex items-center gap-4">
+          <span className="text-sm">
+            {user.email}
+          </span>
+
+          <LogoutButton />
+        </div>
+      ) : (
+        <div className="flex gap-2">
+          <Link
+            href="/login"
+            className="rounded border px-4 py-2"
+          >
+            Login
+          </Link>
+
+          <Link
+            href="/signup"
+            className="rounded bg-black px-4 py-2 text-white"
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
