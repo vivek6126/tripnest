@@ -2,7 +2,7 @@
 
 TripNest is a full-stack hotel booking application built with modern web technologies.
 
-Users can browse available properties, create bookings, view their bookings, and manage cancellations through an authenticated account system.
+Users can browse properties, securely authenticate, make bookings, manage their reservations, and enjoy a polished booking experience through a modern, responsive interface.
 
 ---
 
@@ -10,27 +10,31 @@ Users can browse available properties, create bookings, view their bookings, and
 
 ### Authentication
 - User signup and login
-- Supabase authentication
+- Supabase Authentication
 - Server-side session handling
 - Protected booking actions
+- Secure logout
 
 ### Property Browsing
-- View available properties
-- Property details
+- Browse available properties
+- Property details page
 - Responsive property cards
 
 ### Booking System
 - Create bookings
-- Store booking information in Supabase
-- View personal booking history
-- Cancel bookings with confirmation dialog
+- Booking confirmation dialog
+- View personal bookings
+- Cancel bookings
+- Confirmation before cancellation
+- User-specific booking history
 
 ### UI / UX
 - Responsive design
-- Toast notifications
 - Reusable UI components
-- Confirmation dialogs
-- Consistent component system using shadcn/ui
+- Reusable confirmation dialogs
+- Booking success dialog
+- Loading states
+- Modern component system using shadcn/ui
 
 ---
 
@@ -51,10 +55,117 @@ Users can browse available properties, create bookings, view their bookings, and
 - PostgreSQL (Supabase)
 
 ### Other Tools
-- Sonner (Toast notifications)
-- Lucide Icons
+- Sonner
+- Lucide React
 - Git & GitHub
 
 ---
 
 ## 📂 Project Structure
+
+```text
+app/
+│
+├── api/
+│   └── bookings/
+│
+├── bookings/
+├── login/
+├── signup/
+├── properties/
+│   └── [id]/
+│
+components/
+│
+├── bookings/
+├── layout/
+├── shared/
+├── ui/
+│
+constants/
+hooks/
+lib/
+types/
+```
+
+---
+
+## 🔐 Database
+
+### properties
+
+Stores property information.
+
+### bookings
+
+Stores user reservations.
+
+Relationships
+
+- One property → Many bookings
+- One user → Many bookings
+
+Foreign Keys
+
+- `bookings.user_id → auth.users.id`
+- `bookings.property_id → properties.id`
+
+---
+
+## ✨ Current Features
+
+- User Authentication
+- Property Listing
+- Property Details
+- Booking Creation
+- Booking Success Dialog
+- My Bookings
+- Booking Cancellation
+- Confirmation Dialogs
+- Shared Utility Functions
+- Shared Type Definitions
+- Responsive Layout
+- Protected API Routes
+
+---
+
+## 🎯 Learning Goals
+
+This project is built to practice production-level full-stack development.
+
+Concepts covered include:
+
+- Next.js App Router
+- Server & Client Components
+- API Route Design
+- Authentication
+- Database Relationships
+- Component Architecture
+- Reusable Components
+- TypeScript
+- PostgreSQL
+- Supabase
+
+---
+
+## 🚧 Roadmap
+
+### Completed ✅
+
+- Authentication
+- Property browsing
+- Property details
+- Booking system
+- Booking management
+- Booking success flow
+- Confirmation dialogs
+- shadcn/ui integration
+
+### Planned 🚀
+
+- Search & Filters
+- Favorites / Wishlist
+- Reviews & Ratings
+- User Profile
+- Admin Dashboard
+- Deployment

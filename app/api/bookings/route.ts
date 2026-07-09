@@ -32,9 +32,15 @@ export async function POST(request: Request) {
       guests,
     });
 
-    return NextResponse.json(booking, {
-      status: 201,
-    });
+   return NextResponse.json(
+  {
+    message: "Booking created successfully.",
+    booking,
+  },
+  {
+    status: 201,
+  }
+);
   } catch (error) {
     console.error(error);
 

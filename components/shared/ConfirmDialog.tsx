@@ -1,7 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,21 +16,21 @@ type ConfirmDialogProps = {
   title: string;
   description: string;
   confirmText: string;
+  triggerText: string;
   onConfirm: () => void | Promise<void>;
-  children: ReactNode;
 };
 
 export default function ConfirmDialog({
   title,
   description,
   confirmText,
+  triggerText,
   onConfirm,
-  children,
 }: ConfirmDialogProps) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        {children}
+      <AlertDialogTrigger variant="destructive">
+        {triggerText}
       </AlertDialogTrigger>
 
       <AlertDialogContent>
@@ -52,6 +50,7 @@ export default function ConfirmDialog({
           </AlertDialogCancel>
 
           <AlertDialogAction
+            variant="destructive"
             onClick={onConfirm}
           >
             {confirmText}

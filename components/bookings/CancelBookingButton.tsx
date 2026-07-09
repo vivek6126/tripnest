@@ -39,16 +39,13 @@ export default function CancelBookingButton({
     }
   }
 
-  return (
+ return (
   <ConfirmDialog
     title="Cancel Booking"
     description="Are you sure you want to cancel this booking? This action cannot be undone."
     confirmText="Cancel Booking"
+    triggerText="Cancel Booking"
     onConfirm={handleCancel}
-  >
-    <Button variant="destructive">
-      Cancel Booking
-    </Button>
-  </ConfirmDialog>
-  );
+  />
+);
 }

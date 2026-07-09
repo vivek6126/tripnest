@@ -1,5 +1,5 @@
 "use client";
-
+import SuccessDialog from "@/components/shared/SuccessDialog";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -16,7 +16,8 @@ export default function BookingCard({
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
   const [isBooking, setIsBooking] = useState(false);
-
+  const [showSuccessDialog, setShowSuccessDialog] =
+  useState(false);
 
   const today = new Date()
     .toISOString()
@@ -74,9 +75,7 @@ export default function BookingCard({
       throw new Error(result.message);
     }
 
-    toast.success(
-      result.message ?? "Booking created successfully!"
-    );
+    setShowSuccessDialog(true);
   } catch (error) {
     if (error instanceof Error) {
       toast.error(error.message);
@@ -232,6 +231,16 @@ export default function BookingCard({
 >
   {isBooking ? "Booking..." : "Book Now"}
 </button>
+<SuccessDialog
+  open={showSuccessDialog}
+  onOpenChange={setShowSuccessDialog}
+  title="Booking Confirmed!"
+  description="Your booking has been created successfully."
+  primaryText="View My Bookings"
+  secondaryText="Continue Browsing"
+  primaryHref="/bookings"
+  onSecondary={() => setShowSuccessDialog(false)}
+/>
     </aside>  
   );
 }
