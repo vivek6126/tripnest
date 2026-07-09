@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { getProperties, type Property } from "@/lib/api/properties";
 import Link from "next/link";
 import PropertyCard from "@/components/PropertyCard";
-
+import PropertyFilters from "@/components/properties/PropertyFilters";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -40,7 +40,7 @@ export default function SearchPage() {
     }
 
     loadProperties();
-  }, []);
+  }, [destination]);
 
 
 
@@ -110,7 +110,9 @@ export default function SearchPage() {
         Destination: {destination || "All"} | Guests: {guests} |
         Date: {date || "Any"}
       </p>
-
+        <PropertyFilters
+          location={destination}
+        />
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {properties.map((property) => (
           <Link

@@ -19,6 +19,10 @@ Users can browse properties, securely authenticate, make bookings, manage their 
 - Browse available properties
 - Property details page
 - Responsive property cards
+- Search properties by destination
+- Refine search directly from the search results page
+- Shareable URL-based search
+
 
 ### Booking System
 - Create bookings
@@ -35,6 +39,7 @@ Users can browse properties, securely authenticate, make bookings, manage their 
 - Booking success dialog
 - Loading states
 - Modern component system using shadcn/ui
+- URL-driven search experience
 
 ---
 
