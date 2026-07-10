@@ -7,10 +7,18 @@ export async function GET(request: Request) {
   const destination =
     searchParams.get("destination")?.trim() ?? "";
 
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
+  const bedrooms = searchParams.get("bedrooms");
+  const rating = searchParams.get("rating");
   try {
-    const properties = await getPropertiesFromDB(
-      destination
-    );
+    const properties = await getPropertiesFromDB({
+  destination,
+  minPrice: minPrice ?? undefined,
+  maxPrice: maxPrice ?? undefined,
+  bedrooms: bedrooms ?? undefined,
+  rating: rating ?? undefined,
+});
 
     return NextResponse.json(properties);
   } catch (error) {

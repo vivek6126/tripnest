@@ -1,19 +1,54 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Property } from "@/lib/api/properties";
 
+type PropertyFilters = {
+  destination?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  bedrooms?: string;
+  rating?: string;
+};
+
 export async function getPropertiesFromDB(
-  destination?: string
+  filters: PropertyFilters
 ): Promise<Property[]> {
   let query = supabase
     .from("properties")
     .select("*");
 
-  if (destination) {
+  if (filters.destination) {
     query = query.ilike(
       "location",
-      `%${destination}%`
+      `%${filters.destination}%`
     );
   }
+
+  if (filters.minPrice) {
+    query = query.gte(
+      "price",
+      Number(filters.minPrice)
+    );
+  }
+
+  if (filters.maxPrice) {
+    query = query.lte(
+      "price",
+      Number(filters.maxPrice)
+    );
+  }
+  if (filters.bedrooms) {
+  query = query.eq(
+    "bedrooms",
+    Number(filters.bedrooms)
+  );
+}
+
+if (filters.rating) {
+  query = query.gte(
+    "rating",
+    Number(filters.rating)
+  );
+}
 
   const { data, error } = await query;
 

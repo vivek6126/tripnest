@@ -10,15 +10,38 @@ export type Property = {
   amenities: string[];
 };
 
+type PropertyFilters = {
+  destination?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  bedrooms?: string;
+  rating?: string;
+};
+
 export async function getProperties(
-  destination: string | null
+  filters: PropertyFilters
 ): Promise<Property[]> {
-  let url = "/api/properties";
+  const params = new URLSearchParams();
 
-  if (destination) {
-    url += `?destination=${encodeURIComponent(destination)}`;
-  }
+    if (filters.destination) {
+      params.set("destination", filters.destination);
+    }
 
+    if (filters.minPrice) {
+      params.set("minPrice", filters.minPrice);
+    }
+
+    if (filters.maxPrice) {
+      params.set("maxPrice", filters.maxPrice);
+    }
+    if (filters.bedrooms) {
+      params.set("bedrooms", filters.bedrooms);
+    }
+    if (filters.rating) {
+      params.set("rating", filters.rating);
+    }
+
+  const url = `/api/properties?${params.toString()}`;
   const response = await fetch(url);
 
   if (!response.ok) {

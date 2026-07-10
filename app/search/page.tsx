@@ -15,7 +15,10 @@ export default function SearchPage() {
 
   const guests = searchParams.get("guests");
   const date = searchParams.get("date");
-
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
+  const bedrooms = searchParams.get("bedrooms");
+  const rating = searchParams.get("rating");
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,7 +29,13 @@ export default function SearchPage() {
         setIsLoading(true);
         setError("");
 
-        const properties  = await getProperties(destination);
+        const properties = await getProperties({
+          destination,
+          minPrice: minPrice ?? undefined,
+          maxPrice: maxPrice ?? undefined,
+          bedrooms: bedrooms ?? undefined,
+          rating: rating ?? undefined,
+        });
 
         setProperties(properties);
       }
@@ -40,7 +49,11 @@ export default function SearchPage() {
     }
 
     loadProperties();
-  }, [destination]);
+  }, [destination,
+      minPrice,
+      maxPrice,
+      bedrooms,
+      rating,]);
 
 
 
@@ -64,41 +77,7 @@ export default function SearchPage() {
     );
   }
 
-  if (properties.length === 0) {
-    return (
-      <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
-        <h1 className="mb-4 text-5xl">😕</h1>
-
-        <h2 className="text-3xl font-bold">
-          No Properties Found
-        </h2>
-
-        <p className="mt-4 text-zinc-400">
-          We couldn't find any properties matching{" "}
-          <span className="font-semibold text-white">
-            "{destination}"
-          </span>
-        </p>
-
-        <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6 text-left">
-          <h3 className="mb-3 font-semibold">Try:</h3>
-
-          <ul className="space-y-2 text-zinc-400">
-            <li>• Check the spelling</li>
-            <li>• Search a nearby city</li>
-            <li>• Try another destination</li>
-          </ul>
-        </div>
-
-        <Link
-          href="/"
-          className="mt-8 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
-        >
-          ← Back to Search
-        </Link>
-      </main>
-    );
-  }
+  
 
   return (
     <main className="mx-auto max-w-7xl p-8">
@@ -113,23 +92,49 @@ export default function SearchPage() {
         <PropertyFilters
           location={destination}
         />
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {properties.map((property) => (
-          <Link
-            key={property.id}
-            href={`/properties/${property.id}`}
-          >
-            <PropertyCard
-              id={property.id}
-              title={property.title}
-              location={property.location}
-              rating={property.rating}
-              price={property.price}
-              image={property.image}
-            />
-          </Link>
-        ))}
-      </div>
+      {properties.length === 0 ? (
+  <div className="mt-12 rounded-xl border border-zinc-800 bg-zinc-900 p-10 text-center">
+    <h2 className="mb-4 text-3xl font-bold">
+      😕 No Properties Found
+    </h2>
+
+    <p className="mb-6 text-zinc-400">
+      We couldn't find any properties matching your filters.
+    </p>
+
+    <div className="mx-auto max-w-md text-left">
+      <h3 className="mb-3 font-semibold">
+        Try:
+      </h3>
+
+      <ul className="space-y-2 text-zinc-400">
+        <li>• Lower your minimum price</li>
+        <li>• Increase your maximum price</li>
+        <li>• Reduce the bedroom count</li>
+        <li>• Lower the minimum rating</li>
+        <li>• Search another destination</li>
+      </ul>
+    </div>
+  </div>
+) : (
+  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {properties.map((property) => (
+      <Link
+        key={property.id}
+        href={`/properties/${property.id}`}
+      >
+        <PropertyCard
+          id={property.id}
+          title={property.title}
+          location={property.location}
+          rating={property.rating}
+          price={property.price}
+          image={property.image}
+        />
+      </Link>
+    ))}
+  </div>
+)}
     </main>
   );
 }

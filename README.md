@@ -16,12 +16,16 @@ Users can browse properties, securely authenticate, make bookings, manage their 
 - Secure logout
 
 ### Property Browsing
-- Browse available properties
-- Property details page
-- Responsive property cards
+- Browse all available properties
 - Search properties by destination
 - Refine search directly from the search results page
-- Shareable URL-based search
+- Filter by:
+  - Destination
+  - Price range
+  - Bedrooms
+  - Minimum rating
+- View detailed property pages
+- Responsive property cards
 
 
 ### Booking System
@@ -34,12 +38,12 @@ Users can browse properties, securely authenticate, make bookings, manage their 
 
 ### UI / UX
 - Responsive design
-- Reusable UI components
-- Reusable confirmation dialogs
-- Booking success dialog
-- Loading states
-- Modern component system using shadcn/ui
 - URL-driven search experience
+- Toast notifications
+- Empty state handling
+- Reusable UI components
+- Confirmation dialogs
+- Consistent component system using shadcn/ui
 
 ---
 
