@@ -11,6 +11,9 @@ CREATE TABLE public.properties (
   image text NOT NULL,
   bedrooms integer NOT NULL,
   amenities ARRAY NOT NULL,
+  category text,
+  guests integer,
+  bathrooms integer,
   CONSTRAINT properties_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.bookings (

@@ -7,10 +7,11 @@ type PropertyFilters = {
   maxPrice?: string;
   bedrooms?: string;
   rating?: string;
+  category?: string;
 };
 
 export async function getPropertiesFromDB(
-  filters: PropertyFilters
+  filters: PropertyFilters = {}
 ): Promise<Property[]> {
   let query = supabase
     .from("properties")
@@ -47,6 +48,12 @@ if (filters.rating) {
   query = query.gte(
     "rating",
     Number(filters.rating)
+  );
+}
+if (filters.category) {
+  query = query.eq(
+    "category",
+    filters.category
   );
 }
 

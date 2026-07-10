@@ -24,16 +24,16 @@ export default function SearchBar() {
     }
 
     const inputClass =
-    "rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder:text-zinc-500 outline-none transition focus:border-blue-500";
+      "w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder:text-zinc-500 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10";
 
 return (
-    <div className="flex items-center gap-4 rounded-2xl border border-zinc-700 bg-black p-4 shadow-lg">
+    <div className="grid gap-4 md:grid-cols-[2fr_1fr_1fr_auto]">
 
 
       {/* Destination */}
       <div className="w-full">
       <div className="flex flex-1 items-center gap-2">
-        <MapPinned className="h-5 w-5 text-zinc-400" />
+        <MapPinned className="h-5 w-5 text-zinc-500" />
 
         <input
           type="text"
@@ -42,7 +42,7 @@ return (
             setDestination(event.target.value);
             setError("");
             }}
-          placeholder="Destination"
+          placeholder="Where are you going?"
           className={`${inputClass} flex-1`}
         />
       </div>
@@ -56,22 +56,22 @@ return (
 
       {/* Guests */}
       <div className="flex items-center gap-2">
-        <Users className="h-5 w-5 text-zinc-400" />
+        <Users className="h-5 w-5 text-zinc-500" />
 
         <select className={inputClass} 
                 value={guests}
                 onChange={(event) => setGuests(event.target.value)}>
           <option value="1">1 Guest</option>
-          <option value="2">2 Guest</option>
-          <option value="3">3 Guest</option>
-          <option value="4">4 Guest</option>
+          <option value="2">2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
           
         </select>
       </div>
 
       {/* Date */}
       <div className="flex items-center gap-2">
-        <CalendarDays className="h-5 w-5 text-zinc-400" />
+        <CalendarDays className="h-5 w-5 text-zinc-500" />
 
         <input 
             type="date"
@@ -82,7 +82,7 @@ return (
       </div>
 
       {/* Search Button */}
-      <button onClick={handleSearch} className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700">
+      <button onClick={handleSearch} className="flex h-full items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3 font-semibold text-primary-foreground transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:bg-primary/90">
         <Search className="h-5 w-5" />
         Search
       </button>

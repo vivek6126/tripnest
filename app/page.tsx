@@ -1,18 +1,26 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import FeaturedProperties from "@/components/FeaturedProperties";
+import CategorySection from "@/components/CategorySection";
 
+type HomeProps = {
+  searchParams: Promise<{
+    category?: string;
+  }>;
+};
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: HomeProps) {
+  const { category } = await searchParams;
   return (
     <>
-      <Navbar title="TripNest" />
+      <Navbar />
       <Hero />
-    
-      <main className="flex flex-1 items-center justify-center">
-        <h1 className="text-5xl font-bold">
-          Welcome to TripNest
-        </h1>
-      </main>
+      <CategorySection />
+      <FeaturedProperties
+        category={category}
+      />
     </>
   );
 }

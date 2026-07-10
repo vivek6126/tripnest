@@ -17,29 +17,37 @@ export default function PropertyCard({
   image,
 }: PropertyCardProps) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-lg transition hover:scale-[1.02] hover:shadow-xl">
-      {/* Property Image */}
+    <div className="group h-full overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Image
         src={image}
         alt={title}
         width={500}
         height={300}
-        className="h-60 w-full object-cover"
+        className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
 
-      {/* Property Details */}
-      <div className="space-y-2 p-5">
-        <h2 className="text-2xl font-bold">{title}</h2>
+      <div className="space-y-3 p-6">
+        <h2 className="text-2xl font-bold">
+          {title}
+        </h2>
 
-        <p className="text-zinc-400">{location}</p>
+        <p className="text-sm text-zinc-500">
+          {location}
+        </p>
 
-        <p>⭐ {rating}</p>
+        <div className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
+          ⭐ {rating}
+        </div>
 
-        <p className="text-xl font-semibold">₹{price} / night</p>
+        <div className="pt-2">
+          <span className="text-2xl font-bold">
+            ₹{price}
+          </span>
 
-        <button className="mt-4 w-full rounded-lg bg-blue-600 py-3 font-medium text-white transition hover:bg-blue-700">
-          Book Now
-        </button>
+          <span className="ml-1 text-zinc-500">
+            / night
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -7,9 +7,11 @@ export type Property = {
   rating: number;
   image: string;
   bedrooms: number;
+  bathrooms: number;
+  guests: number;
   amenities: string[];
+  category: string;
 };
-
 type PropertyFilters = {
   destination?: string;
   minPrice?: string;

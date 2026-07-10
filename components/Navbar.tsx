@@ -2,13 +2,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "./LogoutButton"
 
-type NavbarProps = {
-  title: string;
-};
+export default async function Navbar() {
 
-export default async function Navbar({
-  title,
-}: NavbarProps) {
   const supabase = await createClient();
 
   const {
@@ -16,12 +11,15 @@ export default async function Navbar({
   } = await supabase.auth.getUser();
 
   return (
-    <nav className="flex items-center justify-between border-b p-4">
-      <h1 className="text-2xl font-bold">{title}</h1>
+    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
+  <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6">
+     <Link href="/" className="text-2xl font-bold tracking-tight">
+        TripNest
+      </Link>
 
-      <div className="flex gap-6">
+     <div className="flex items-center gap-8 text-sm font-medium">
         <Link href="/">
-          Home
+          Explore
         </Link>
 
         {user && (
@@ -33,14 +31,14 @@ export default async function Navbar({
 
       {user ? (
         <div className="flex items-center gap-4">
-          <span className="text-sm">
+          <span className="hidden text-sm text-muted-foreground md:block">
             {user.email}
           </span>
 
           <LogoutButton />
         </div>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex items-center gap-3">
           <Link
             href="/login"
             className="rounded border px-4 py-2"
@@ -56,6 +54,7 @@ export default async function Navbar({
           </Link>
         </div>
       )}
+      </div>
     </nav>
   );
 }
