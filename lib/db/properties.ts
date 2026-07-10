@@ -16,9 +16,8 @@ export async function getPropertiesFromDB(
   let query = supabase
     .from("properties")
     .select("*");
-
-  if (filters.destination) {
-    query = query.ilike(
+    if (filters.destination) {
+      query = query.ilike(
       "location",
       `%${filters.destination}%`
     );
@@ -30,7 +29,7 @@ export async function getPropertiesFromDB(
       Number(filters.minPrice)
     );
   }
-
+  
   if (filters.maxPrice) {
     query = query.lte(
       "price",
@@ -38,15 +37,15 @@ export async function getPropertiesFromDB(
     );
   }
   if (filters.bedrooms) {
-  query = query.eq(
-    "bedrooms",
-    Number(filters.bedrooms)
-  );
-}
-
-if (filters.rating) {
-  query = query.gte(
-    "rating",
+    query = query.eq(
+      "bedrooms",
+      Number(filters.bedrooms)
+    );
+  }
+  
+  if (filters.rating) {
+    query = query.gte(
+      "rating",
     Number(filters.rating)
   );
 }
@@ -57,6 +56,11 @@ if (filters.category) {
   );
 }
 
+if (!filters.category) {
+  query = query
+      .order("rating", { ascending: false })
+      .limit(6);
+}
   const { data, error } = await query;
 
   if (error) {

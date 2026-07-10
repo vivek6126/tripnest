@@ -36,7 +36,9 @@ export default async function FeaturedProperties({
         </h2>
 
         <p className="mt-2 text-muted-foreground">
-          Handpicked places you'll love.
+            {category === "Featured" || !category
+            ? "Our highest-rated stays loved by travelers."
+            : `Explore our best ${category.toLowerCase()} destinations.`}
         </p>
       </div>
 
