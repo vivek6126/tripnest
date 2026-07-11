@@ -1,4 +1,5 @@
 import Image from "next/image";
+import WishlistButton from "./WishlistButton";
 
 type PropertyCardProps = {
   id: number;
@@ -7,25 +8,42 @@ type PropertyCardProps = {
   rating: number;
   price: number;
   image: string;
+  wishlisted: boolean;
 };
 
 export default function PropertyCard({
+  id,
   title,
   location,
   rating,
   price,
   image,
+  wishlisted,
 }: PropertyCardProps) {
   return (
     <div className="group h-full overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <Image
-        src={image}
-        alt={title}
-        width={500}
-        height={300}
-        className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
 
+      {/* Image */}
+      <div className="relative">
+        <Image
+          src={image}
+          alt={title}
+          width={500}
+          height={300}
+          className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        <div
+          className="absolute right-4 top-4 z-10"
+        >
+          <WishlistButton
+            propertyId={id}
+            initialWishlisted={wishlisted}
+          />
+        </div>
+      </div>
+
+      {/* Content */}
       <div className="space-y-3 p-6">
         <h2 className="text-2xl font-bold">
           {title}

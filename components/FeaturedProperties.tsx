@@ -1,5 +1,7 @@
 import Link from "next/link";
-
+import {
+  getWishlistedPropertyIds,
+} from "@/lib/db/wishlist";
 import { getPropertiesFromDB } from "@/lib/db/properties";
 import PropertyCard from "./PropertyCard";
 
@@ -23,6 +25,7 @@ export default async function FeaturedProperties({
         ? undefined
         : category,
   });
+  const wishlistedIds = await getWishlistedPropertyIds();
 
   const title =
     sectionTitles[category ?? "Featured"] ??
@@ -56,6 +59,7 @@ export default async function FeaturedProperties({
               rating={property.rating}
               price={property.price}
               image={property.image}
+              wishlisted={wishlistedIds.has(property.id)}
             />
           </Link>
         ))}

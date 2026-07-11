@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { getPropertyById } from "@/lib/db/properties";
 import BookingCard from "@/components/BookingCard";
-  
+import WishlistButton from "@/components/WishlistButton";
+import { isWishlisted } from "@/lib/db/wishlist";
+
 type PropertyPageProps = {
   params: Promise<{
     id: string;
@@ -14,6 +16,7 @@ export default async function PropertyPage({
   const { id } = await params;
 
   const property = await getPropertyById(Number(id));
+  const wishlisted = await isWishlisted(property.id);
 
   return (
     <main className="mx-auto max-w-6xl p-8">
@@ -29,15 +32,22 @@ export default async function PropertyPage({
       {/* Property Header */}
 <div className="mt-8 flex flex-col gap-4">
 
-  <div className="flex items-center justify-between">
+  <div className="flex items-center justify-between gap-4">
 
     <h1 className="text-4xl font-bold tracking-tight">
       {property.title}
     </h1>
 
-    <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-      {property.category}
-    </span>
+    <div className="flex items-center gap-3">
+  <WishlistButton
+    propertyId={property.id}
+    initialWishlisted={wishlisted}
+  />
+
+  <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+    {property.category}
+  </span>
+</div>
 
   </div>
 

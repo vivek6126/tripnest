@@ -1,84 +1,129 @@
-# TripNest 🏨
+# TripNest ✈️
 
-TripNest is a full-stack hotel booking application built with modern web technologies.
+TripNest is a modern full-stack hotel booking platform inspired by Airbnb and Booking.com.
 
-Users can browse properties, securely authenticate, make bookings, manage their reservations, and enjoy a polished booking experience through a modern, responsive interface.
+Users can browse properties, search destinations, save favorites, securely authenticate, make bookings, and manage their travel plans through a fast, responsive interface built with Next.js and Supabase.
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-### Authentication
-- User signup and login
+## 🔐 Authentication
+
+- User Signup & Login
+- Secure Logout
 - Supabase Authentication
-- Server-side session handling
-- Protected booking actions
-- Secure logout
-
-### Property Browsing
-- Browse all available properties
-- Search properties by destination
-- Refine search directly from the search results page
-- Filter by:
-  - Destination
-  - Price range
-  - Bedrooms
-  - Minimum rating
-- View detailed property pages
-- Responsive property cards
-
-
-### Booking System
-- Create bookings
-- Booking confirmation dialog
-- View personal bookings
-- Cancel bookings
-- Confirmation before cancellation
-- User-specific booking history
-
-### UI / UX
-- Responsive design
-- URL-driven search experience
-- Toast notifications
-- Empty state handling
-- Reusable UI components
-- Confirmation dialogs
-- Consistent component system using shadcn/ui
+- Server-side Session Handling
+- Protected Routes
+- Protected API Actions
 
 ---
 
-## 🛠️ Tech Stack
+## 🏡 Property Browsing
 
-### Frontend
-- Next.js (App Router)
+- Browse Featured Properties
+- Category Pages
+- Beach Stays
+- Mountain Retreats
+- Luxury Escapes
+- Property Detail Pages
+- Dynamic Property Data
+- Responsive Property Cards
+
+---
+
+## 🔍 Search
+
+- Search by Destination
+- Search Results Page
+- URL-based Search
+- Refine Search
+- Dynamic Filtering
+
+---
+
+## ❤️ Wishlist
+
+- Add Property to Wishlist
+- Remove from Wishlist
+- Persistent Favorites
+- Dedicated Wishlist Page
+- Authentication Protected
+- Real-time Wishlist Status
+
+---
+
+## 📅 Booking System
+
+- Select Check-in / Check-out
+- Guest Selection
+- Automatic Price Calculation
+- Booking Confirmation Dialog
+- Store Bookings in Database
+- View My Bookings
+- Cancel Bookings
+- Confirmation Dialog
+
+---
+
+## 🎨 User Experience
+
+- Responsive Design
+- Sticky Navigation Bar
+- Dynamic Search Experience
+- Toast Notifications
+- Empty States
+- Loading States
+- Modern Property Cards
+- Reusable Dialog Components
+- shadcn/ui Components
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- Next.js 15 (App Router)
 - React
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS v4
 - shadcn/ui
+- Lucide React
 
-### Backend
-- Next.js API Routes
+## Backend
+
+- Next.js Route Handlers
 - Supabase
 
-### Database
-- PostgreSQL (Supabase)
+## Database
 
-### Other Tools
+- PostgreSQL
+- Supabase Database
+
+## Authentication
+
+- Supabase Auth
+
+## Other Tools
+
 - Sonner
-- Lucide React
-- Git & GitHub
+- Git
+- GitHub
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 app/
 │
 ├── api/
-│   └── bookings/
+│   ├── bookings/
+│   └── wishlist/
 │
 ├── bookings/
+├── wishlist/
 ├── login/
 ├── signup/
 ├── properties/
@@ -86,95 +131,15 @@ app/
 │
 components/
 │
-├── bookings/
-├── layout/
 ├── shared/
 ├── ui/
+├── Navbar
+├── PropertyCard
+├── BookingCard
 │
-constants/
-hooks/
 lib/
+│
+├── db/
+├── supabase/
+│
 types/
-```
-
----
-
-## 🔐 Database
-
-### properties
-
-Stores property information.
-
-### bookings
-
-Stores user reservations.
-
-Relationships
-
-- One property → Many bookings
-- One user → Many bookings
-
-Foreign Keys
-
-- `bookings.user_id → auth.users.id`
-- `bookings.property_id → properties.id`
-
----
-
-## ✨ Current Features
-
-- User Authentication
-- Property Listing
-- Property Details
-- Booking Creation
-- Booking Success Dialog
-- My Bookings
-- Booking Cancellation
-- Confirmation Dialogs
-- Shared Utility Functions
-- Shared Type Definitions
-- Responsive Layout
-- Protected API Routes
-
----
-
-## 🎯 Learning Goals
-
-This project is built to practice production-level full-stack development.
-
-Concepts covered include:
-
-- Next.js App Router
-- Server & Client Components
-- API Route Design
-- Authentication
-- Database Relationships
-- Component Architecture
-- Reusable Components
-- TypeScript
-- PostgreSQL
-- Supabase
-
----
-
-## 🚧 Roadmap
-
-### Completed ✅
-
-- Authentication
-- Property browsing
-- Property details
-- Booking system
-- Booking management
-- Booking success flow
-- Confirmation dialogs
-- shadcn/ui integration
-
-### Planned 🚀
-
-- Search & Filters
-- Favorites / Wishlist
-- Reviews & Ratings
-- User Profile
-- Admin Dashboard
-- Deployment
