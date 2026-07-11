@@ -6,11 +6,13 @@ import { toast } from "sonner";
 type BookingCardProps = {
   propertyId: number;
   price: number;
+  rating: number;
 };
 
 export default function BookingCard({
   propertyId,
   price,
+  rating,
 }: BookingCardProps) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -87,14 +89,24 @@ export default function BookingCard({
 
 
   return (
-    <aside className="rounded-xl border p-6 shadow-sm">
-      <p className="text-3xl font-bold">
-        ₹{price}
-        <span className="text-base font-normal text-zinc-500">
-          {" "}
-          / night
-        </span>
-      </p>
+    <aside className="sticky top-24 rounded-3xl border border-zinc-200 bg-white p-8 shadow-xl">
+     <div className="flex items-center justify-between">
+
+  <div>
+    <p className="text-4xl font-bold tracking-tight">
+      ₹{price}
+    </p>
+
+    <p className="text-sm text-zinc-500">
+      per night
+    </p>
+  </div>
+
+  <div className="rounded-full bg-yellow-100 px-3 py-2 text-sm font-semibold text-yellow-800">
+    ⭐ {rating}
+  </div>
+
+</div>
 
       <div className="mt-6 space-y-4">
         <div>
@@ -127,7 +139,7 @@ export default function BookingCard({
               setCheckIn(event.target.value);
               setCheckOut(nextDay);
             }}
-            className="w-full rounded-lg border p-2"
+            className="w-full rounded-xl border border-zinc-300 px-4 py-3 transition focus:border-blue-500 focus:outline-none"
           />
         </div>
 
@@ -147,7 +159,8 @@ export default function BookingCard({
             onChange={(event) =>
               setCheckOut(event.target.value)
             }
-            className="w-full rounded-lg border p-2"
+          className="w-full rounded-xl border border-zinc-300 px-4 py-3 transition focus:border-blue-500 focus:outline-none"
+            
           />
         </div>
 
@@ -167,7 +180,7 @@ export default function BookingCard({
                   Math.max(1, prev - 1)
                 )
               }
-              className="h-10 w-10 rounded-lg border"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 transition hover:bg-zinc-100"
             >
               -
             </button>
@@ -181,7 +194,7 @@ export default function BookingCard({
               onClick={() =>
                 setGuests((prev) => prev + 1)
               }
-              className="h-10 w-10 rounded-lg border"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 transition hover:bg-zinc-100"
             >
               +
             </button>
@@ -190,31 +203,30 @@ export default function BookingCard({
       </div>
 
       {nights > 0 && (
-        <div className="mt-6 space-y-2 border-t pt-4">
-          <div className="flex justify-between">
-            <span>
-              ₹{price} × {nights}{" "}
-              {nights === 1
-                ? "night"
-                : "nights"}
-            </span>
+  <div className="mt-6 space-y-3 border-t border-zinc-200 pt-5">
 
-            <span>₹{totalPrice}</span>
-          </div>
+    <div className="flex justify-between text-zinc-700">
+      <span>
+        ₹{price} × {nights} {nights === 1 ? "night" : "nights"}
+      </span>
 
-          <div className="flex justify-between">
-            <span>Guests</span>
+      <span>₹{totalPrice}</span>
+    </div>
 
-            <span>{guests}</span>
-          </div>
+    <div className="flex justify-between text-zinc-600">
+      <span>Guests</span>
 
-          <div className="flex justify-between border-t pt-2 text-lg font-bold">
-            <span>Total</span>
+      <span>{guests}</span>
+    </div>
 
-            <span>₹{totalPrice}</span>
-          </div>
-        </div>
-      )}
+    <div className="mt-2 flex justify-between border-t border-zinc-200 pt-4 text-xl font-bold">
+      <span>Total</span>
+
+      <span>₹{totalPrice}</span>
+    </div>
+
+  </div>
+)}
 
       {!isBookingValid && (
         <p className="mt-4 text-sm text-red-500">
@@ -227,15 +239,15 @@ export default function BookingCard({
   type="button"
   disabled={!isBookingValid || isBooking}
   onClick={handleBooking}
-  className="mt-6 w-full rounded-lg bg-black px-4 py-3 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
+  className="mt-8 w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
 >
-  {isBooking ? "Booking..." : "Book Now"}
+  {isBooking ? "Booking..." : "Reserve Now"}
 </button>
 <SuccessDialog
   open={showSuccessDialog}
   onOpenChange={setShowSuccessDialog}
-  title="Booking Confirmed!"
-  description="Your booking has been created successfully."
+  title="🎉 Your reservation is confirmed!"
+  description="We've reserved your stay successfully. You can view it anytime from My Bookings."
   primaryText="View My Bookings"
   secondaryText="Continue Browsing"
   primaryHref="/bookings"

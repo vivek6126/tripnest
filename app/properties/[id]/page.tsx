@@ -27,64 +27,91 @@ export default async function PropertyPage({
       />
 
       {/* Property Header */}
-      <div className="mt-6">
-        <h1 className="text-4xl font-bold">
-          {property.title}
-        </h1>
+<div className="mt-8 flex flex-col gap-4">
 
-        <div className="mt-2 flex items-center gap-6 text-zinc-600">
-          <p>📍 {property.location}</p>
-          <p>⭐ {property.rating}</p>
-        </div>
+  <div className="flex items-center justify-between">
+
+    <h1 className="text-4xl font-bold tracking-tight">
+      {property.title}
+    </h1>
+
+    <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+      {property.category}
+    </span>
+
+  </div>
+
+  <div className="flex flex-wrap items-center gap-6 text-zinc-600">
+
+    <div className="flex items-center gap-2">
+      📍
+      <span>{property.location}</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      ⭐
+      <span>{property.rating}</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      👥
+      <span>{property.guests} Guests</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      🛏
+      <span>{property.bedrooms} Bedrooms</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      🚿
+      <span>{property.bathrooms} Bathrooms</span>
+    </div>
+
+  </div>
+
+</div>
+    {/* Main Content */}
+        <div className="mt-10 grid gap-10 lg:grid-cols-3">
+          {/* Left Section */}
+          <div className="space-y-10 lg:col-span-2">
+            <section>
+            <h2 className="text-2xl font-semibold">
+              About this stay
+            </h2>
+
+      <p className="mt-4 max-w-3xl leading-8 text-zinc-600">
+        {property.description}
+      </p>
+    </section>
+
+    <section className="border-t border-zinc-200 pt-8">
+      <h2 className="text-2xl font-semibold">
+        What this place offers
+      </h2>
+
+      <div className="mt-5 flex flex-wrap gap-3">
+        {property.amenities.map((amenity) => (
+          <div
+            key={amenity}
+            className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+          >
+            ✓ {amenity}
+          </div>
+        ))}
       </div>
+    </section>
+  </div>
 
-      {/* Main Content */}
-      <div className="mt-10 grid gap-10 lg:grid-cols-3">
-        {/* Left Section */}
-        <div className="space-y-8 lg:col-span-2">
-          <section>
-            <h2 className="text-2xl font-semibold">
-              Description
-            </h2>
-
-            <p className="mt-3 text-zinc-700">
-              {property.description}
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold">
-              Bedrooms
-            </h2>
-
-            <p className="mt-3">
-              🛏️ {property.bedrooms} Bedrooms
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold">
-              Amenities
-            </h2>
-
-            <ul className="mt-3 space-y-2">
-              {property.amenities.map((amenity) => (
-                <li key={amenity}>
-                  ✓ {amenity}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        {/* Right Section */}
-        <aside>
-          <BookingCard
-            propertyId={property.id}
-            price={property.price}
-          />
-        </aside>
-      </div>
+  {/* Right Section */}
+  <aside className="self-start">
+    <BookingCard
+      propertyId={property.id}
+      price={property.price}
+      rating={property.rating}
+    />
+  </aside>
+</div>
     </main>
   );
 }
