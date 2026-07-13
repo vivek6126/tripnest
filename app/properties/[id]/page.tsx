@@ -3,6 +3,14 @@ import { getPropertyById } from "@/lib/db/properties";
 import BookingCard from "@/components/BookingCard";
 import WishlistButton from "@/components/WishlistButton";
 import { isWishlisted } from "@/lib/db/wishlist";
+import {
+  getReviewsByProperty,
+  getAverageRating,
+  getUserReview,
+} from "@/lib/db/reviews";
+
+import ReviewForm from "@/components/reviews/ReviewForm";
+import ReviewList from "@/components/reviews/ReviewList";
 
 type PropertyPageProps = {
   params: Promise<{
@@ -16,6 +24,14 @@ export default async function PropertyPage({
   const { id } = await params;
 
   const property = await getPropertyById(Number(id));
+  const reviews =
+  await getReviewsByProperty(property.id);
+
+const reviewSummary =
+  await getAverageRating(property.id);
+
+const userReview =
+  await getUserReview(property.id);
   const wishlisted = await isWishlisted(property.id);
 
   return (
@@ -59,8 +75,9 @@ export default async function PropertyPage({
     </div>
 
     <div className="flex items-center gap-2">
-      ⭐
-      <span>{property.rating}</span>
+  
+      <span>⭐ {reviewSummary.average || property.rating}
+({reviewSummary.count} reviews)</span>
     </div>
 
     <div className="flex items-center gap-2">
@@ -108,9 +125,25 @@ export default async function PropertyPage({
           >
             ✓ {amenity}
           </div>
+          
         ))}
       </div>
     </section>
+            <section className="space-y-8">
+  <h2 className="text-2xl font-semibold">
+    Reviews
+  </h2>
+
+  {!userReview && (
+    <ReviewForm
+      propertyId={property.id}
+    />
+  )}
+
+  <ReviewList
+    reviews={reviews}
+  />
+</section>
   </div>
 
   {/* Right Section */}
