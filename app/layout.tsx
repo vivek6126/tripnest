@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "sonner";
 
+import "./globals.css";
+
+import Navbar from "@/components/Navbar";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TripNest",
-  description: "Discover and book unforgettable travel experiences.",
+  description:
+    "Discover and book unforgettable travel experiences.",
 };
 
 export default function RootLayout({
@@ -29,8 +32,17 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}
-        <Toaster richColors position="top-right" />
+      <body className="min-h-full bg-white">
+        <Navbar />
+
+        <main className="flex-1">
+          {children}
+        </main>
+
+        <Toaster
+          richColors
+          position="top-right"
+        />
       </body>
     </html>
   );

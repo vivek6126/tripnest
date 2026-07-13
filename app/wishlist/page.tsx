@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import Navbar from "@/components/Navbar";
+
 import PropertyCard from "@/components/PropertyCard";
 
 import { getWishlist } from "@/lib/db/wishlist";
@@ -10,7 +10,7 @@ export default async function WishlistPage() {
 
   return (
     <>
-      <Navbar />
+      
 
       <main className="mx-auto max-w-7xl px-6 py-12">
 
