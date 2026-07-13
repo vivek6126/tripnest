@@ -5,6 +5,10 @@ type Review = {
   rating: number;
   comment: string;
   created_at: string;
+  profiles: {
+    full_name: string | null;
+    avatar_url: string | null;
+  } | null;
 };
 
 type ReviewListProps = {
@@ -36,6 +40,7 @@ export default function ReviewList({
           rating={review.rating}
           comment={review.comment}
           createdAt={review.created_at}
+          fullName={review.profiles?.full_name ?? null}
         />
       ))}
     </div>

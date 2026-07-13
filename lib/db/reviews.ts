@@ -12,7 +12,11 @@ export async function getReviewsByProperty(
       rating,
       comment,
       created_at,
-      user_id
+      user_id,
+      profiles (
+        full_name,
+        avatar_url
+      )
     `)
     .eq("property_id", propertyId)
     .order("created_at", {
@@ -105,7 +109,7 @@ export async function updateReview({
     .update({
       rating,
       comment,
-      updated_at: new Date(),
+      updated_at: new Date().toISOString(),
     })
     .eq("id", reviewId);
 

@@ -4,12 +4,14 @@ type ReviewCardProps = {
   rating: number;
   comment: string;
   createdAt: string;
+  fullName: string | null;
 };
 
 export default function ReviewCard({
   rating,
   comment,
   createdAt,
+  fullName,
 }: ReviewCardProps) {
   const formattedDate = new Date(
     createdAt
@@ -18,6 +20,16 @@ export default function ReviewCard({
     month: "long",
     year: "numeric",
   });
+
+  const displayName =
+    fullName?.trim() || "Anonymous User";
+
+  const initials = displayName
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <article className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:shadow-md">
@@ -33,10 +45,20 @@ export default function ReviewCard({
         {comment}
       </p>
 
-      <div className="mt-6 border-t border-zinc-200 pt-4">
-        <p className="font-semibold text-zinc-800">
-          Anonymous User
-        </p>
+      <div className="mt-6 flex items-center gap-3 border-t border-zinc-200 pt-4">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-600">
+          {initials}
+        </div>
+
+        <div>
+          <p className="font-semibold text-zinc-800">
+            {displayName}
+          </p>
+
+          <p className="text-sm text-zinc-500">
+            Verified Traveler
+          </p>
+        </div>
       </div>
     </article>
   );
