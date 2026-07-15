@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { supabase } from "@/lib/supabase/client";
+
 
 type CreateBookingParams = {
   userId: string;
@@ -10,16 +10,18 @@ type CreateBookingParams = {
 };
 
 export async function createBooking({
-    userId,
+  userId,
   propertyId,
   checkIn,
   checkOut,
   guests,
 }: CreateBookingParams) {
+  const supabase = await createClient();
+
   const { data: existingBookings, error: checkError } =
     await supabase
       .from("bookings")
-      .select("*")
+      .select("id")
       .eq("property_id", propertyId)
       .lt("check_in", checkOut)
       .gt("check_out", checkIn);
@@ -52,7 +54,6 @@ export async function createBooking({
 
   return data;
 }
-
 
 export async function getBookingsByUser(
   userId: string
