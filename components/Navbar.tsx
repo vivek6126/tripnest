@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
 import { PlaneTakeoff } from "lucide-react";
 
-import LogoutButton from "./LogoutButton";
+import { createClient } from "@/lib/supabase/server";
+
 import NavigationLinks from "./NavigationLinks";
+import ProfileDropdown from "./ProfileDropdown";
 
 import { getWishlistCount } from "@/lib/db/wishlist";
+import { getCurrentProfile } from "@/lib/db/profiles";
 
 export default async function Navbar() {
   const supabase = await createClient();
@@ -18,10 +20,14 @@ export default async function Navbar() {
     ? await getWishlistCount()
     : 0;
 
+  const profile = user
+    ? await getCurrentProfile()
+    : null;
+
   return (
     <nav className="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        {/* Logo */}
+
         <Link
           href="/"
           className="flex items-center gap-2 text-2xl font-bold tracking-tight transition hover:text-blue-600"
@@ -34,7 +40,6 @@ export default async function Navbar() {
           <span>TripNest</span>
         </Link>
 
-        {/* Navigation */}
         <div className="flex items-center gap-2 text-sm font-medium">
           {user ? (
             <NavigationLinks
@@ -50,15 +55,15 @@ export default async function Navbar() {
           )}
         </div>
 
-        {/* Right Side */}
         {user ? (
-          <div className="flex items-center gap-4">
-            <span className="hidden rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-600 md:block">
-              {user.email?.split("@")[0]}
-            </span>
-
-            <LogoutButton />
-          </div>
+          <ProfileDropdown
+            name={
+              profile?.full_name ||
+              user.email?.split("@")[0] ||
+              "User"
+            }
+            email={user.email ?? ""}
+          />
         ) : (
           <div className="flex items-center gap-3">
             <Link
@@ -76,6 +81,7 @@ export default async function Navbar() {
             </Link>
           </div>
         )}
+
       </div>
     </nav>
   );
