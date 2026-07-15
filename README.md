@@ -10,115 +10,112 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 
 ## 🔐 Authentication
 
-* User Signup & Login
-* Secure Logout
-* Supabase Authentication
-* Server-side Session Handling
-* Protected Routes
-* Protected API Routes
-* Persistent Login Sessions
+- User Signup & Login
+- Secure Logout
+- Supabase Authentication
+- Supabase SSR
+- Server-side Session Handling
+- Protected Routes
+- Protected API Routes
+- Persistent Login Sessions
 
 ---
 
 ## 👤 User Profiles
 
-* Automatic Profile Creation
-* Edit Profile Information
-* Full Name Support
-* Reviewer Identity
-* Profile Page
-* Profile API
-* Server-side Profile Fetching
+- Automatic Profile Creation
+- Edit Profile Information
+- Full Name Support
+- Profile Page
+- Reviewer Identity
+- Profile API
+- Server-side Profile Fetching
 
 ---
 
 ## 🏡 Property Browsing
 
-* Browse Featured Properties
-* Property Categories
-* Beach Stays
-* Mountain Retreats
-* Luxury Escapes
-* Dynamic Property Pages
-* Responsive Property Cards
-* Property Details
-* Amenities
-* Guest Capacity
-* Bedrooms & Bathrooms
-* Dynamic Ratings
+- Browse Featured Properties
+- Dynamic Property Pages
+- Property Categories
+- Beach Stays
+- Mountain Retreats
+- Luxury Escapes
+- Property Details
+- Amenities
+- Guest Capacity
+- Bedrooms & Bathrooms
+- Dynamic Ratings
+- Responsive Property Cards
 
 ---
 
 ## 🔍 Search & Filtering
 
-* Search by Destination
-* URL-based Search
-* Dynamic Search Results
-* Refine Search
-* Filter by:
-
-  * Destination
-  * Price
-  * Bedrooms
-  * Minimum Rating
+- Search by Destination
+- URL-based Search
+- Dynamic Search Results
+- Filter by Destination
+- Filter by Price
+- Filter by Bedrooms
+- Filter by Minimum Rating
 
 ---
 
 ## ❤️ Wishlist
 
-* Add Properties to Wishlist
-* Remove from Wishlist
-* Persistent Favorites
-* Wishlist Page
-* Wishlist Counter in Navbar
-* Authentication Protected
-* Real-time Wishlist Status
+- Add Properties to Wishlist
+- Remove Properties from Wishlist
+- Persistent Favorites
+- Wishlist Page
+- Wishlist Counter
+- Authentication Protected
+- Real-time Wishlist Status
 
 ---
 
 ## 📅 Booking System
 
-* Select Check-in & Check-out
-* Guest Selection
-* Automatic Night Calculation
-* Live Price Calculation
-* Booking Confirmation Dialog
-* Store Bookings in Database
-* View My Bookings
-* Cancel Bookings
-* Confirmation Dialog
-* Protected Booking Actions
+- Check-in & Check-out Selection
+- Guest Selection
+- Automatic Night Calculation
+- Live Price Calculation
+- Booking Confirmation Dialog
+- Store Bookings in Database
+- View My Bookings
+- Cancel Bookings
+- Protected Booking Actions
 
 ---
 
 ## ⭐ Reviews & Ratings
 
-* Leave Property Reviews
-* Rate Properties (1–5 Stars)
-* Dynamic Average Rating
-* Review Count
-* Property Reviews Section
-* Reviewer Profile Names
-* Duplicate Review Prevention
-* Review Validation
+- Leave Reviews
+- Edit Reviews
+- Delete Reviews
+- Reviewer Profile Names
+- One Review Per User
+- Duplicate Review Prevention
+- Dynamic Average Rating
+- Dynamic Review Count
+- Review Validation
+- Ownership Validation
 
 ---
 
 ## 🎨 User Experience
 
-* Fully Responsive Design
-* Sticky Navigation Bar
-* Active Navigation Highlight
-* Modern Airbnb-inspired UI
-* Toast Notifications
-* Empty States
-* Loading States
-* Reusable Components
-* Shared Dialog Components
-* shadcn/ui Components
-* Beautiful Property Cards
-* Booking Sidebar
-* Smooth Hover Animations
+- Fully Responsive Design
+- Sticky Navigation Bar
+- Active Navigation Highlight
+- Modern Airbnb-inspired UI
+- Toast Notifications
+- Loading States
+- Empty States
+- Reusable Components
+- Shared Dialog Components
+- shadcn/ui Components
+- Smooth Hover Animations
 
 ---
 
@@ -126,174 +123,114 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 
 ## Frontend
 
-* Next.js 15 (App Router)
-* React
-* TypeScript
-* Tailwind CSS v4
-* shadcn/ui
-* Lucide React
+- Next.js 15 (App Router)
+- React
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Lucide React
 
 ## Backend
 
-* Next.js Route Handlers
-* Supabase
+- Next.js Route Handlers
+- Supabase
 
 ## Database
 
-* PostgreSQL
-* Supabase Database
+- PostgreSQL
+- Supabase Database
 
 ## Authentication
 
-* Supabase Auth
-* Supabase SSR
+- Supabase Auth
+- Supabase SSR
 
 ## Libraries
 
-* Sonner
-* Lucide React
+- Sonner
+- Lucide React
 
 ## Development Tools
 
-* Git
-* GitHub
-* ESLint
-* Prettier
-
----
-
-# 📂 Project Structure
-
-```text
-app/
-│
-├── api/
-│   ├── bookings/
-│   ├── profile/
-│   ├── reviews/
-│   └── wishlist/
-│
-├── bookings/
-├── profile/
-├── wishlist/
-├── login/
-├── signup/
-├── properties/
-│   └── [id]/
-│
-components/
-│
-├── auth/
-├── bookings/
-├── profile/
-├── reviews/
-├── shared/
-├── ui/
-│
-lib/
-│
-├── db/
-├── supabase/
-│
-types/
-```
+- Git
+- GitHub
+- ESLint
+- Prettier
 
 ---
 
 # 🗄 Database Schema
 
-## Properties
-
-Stores property information.
-
-## Profiles
-
-Stores user profile information.
-
-## Bookings
-
-Stores reservations.
-
-## Wishlists
-
-Stores saved properties.
-
-## Reviews
-
-Stores user ratings and reviews.
+- Properties
+- Profiles
+- Bookings
+- Wishlists
+- Reviews
 
 ---
 
-# 🔗 Relationships
+# 🔗 Database Relationships
 
-* One User → One Profile
+- One User → One Profile
+- One User → Many Bookings
+- One User → Many Reviews
+- One User → Many Wishlist Items
 
-* One User → Many Bookings
-
-* One User → Many Reviews
-
-* One User → Many Wishlist Items
-
-* One Property → Many Bookings
-
-* One Property → Many Reviews
-
-* One Property → Many Wishlist Entries
+- One Property → Many Bookings
+- One Property → Many Reviews
+- One Property → Many Wishlist Entries
 
 ---
 
 # 📚 Concepts Practiced
 
-* Next.js App Router
-* Server Components
-* Client Components
-* Route Handlers
-* Authentication
-* Authorization
-* CRUD Operations
-* Database Relationships
-* PostgreSQL
-* Row Level Security (RLS)
-* TypeScript
-* Component Architecture
-* Reusable UI Design
-* Responsive Design
-* Supabase SSR
+- Next.js App Router
+- Server Components
+- Client Components
+- Route Handlers
+- Authentication & Authorization
+- CRUD Operations
+- PostgreSQL
+- Supabase
+- Supabase SSR
+- Row Level Security (RLS)
+- Database Relationships
+- TypeScript
+- Component Architecture
+- Responsive Design
+- Reusable UI Design
 
 ---
 
 # ✅ Completed Features
 
-* Authentication
-* User Profiles
-* Property Browsing
-* Property Details
-* Search & Filters
-* Wishlist System
-* Booking System
-* Booking Management
-* Booking Cancellation
-* Reviews & Ratings
-* Responsive Navigation
-* Protected Routes
-* Reusable UI Components
+- Authentication
+- User Profiles
+- Property Browsing
+- Property Details
+- Search & Filtering
+- Wishlist System
+- Booking System
+- Booking Management
+- Review System (Create, Edit & Delete)
+- Dynamic Ratings
+- Protected Routes
+- Responsive Navigation
+- Reusable UI Components
 
 ---
 
 # 🚧 Roadmap
 
-## 🔜 Next Features
-
-* Edit/Delete Reviews
-* User Avatars
-* Property Availability Calendar
-* Prevent Double Booking
-* Admin Dashboard
-* Image Gallery
-* Property Host Profiles
-* Booking History Filters
-* Email Notifications
-* Deployment (Vercel)
+- Prevent Double Booking
+- Property Availability Calendar
+- Image Gallery
+- Property Host Profiles
+- Booking History Filters
+- User Avatars
+- Admin Dashboard
+- Email Notifications
+- Deployment (Vercel)
 
 ---
 
@@ -307,4 +244,4 @@ Stores user ratings and reviews.
 
 Built with ❤️ by **Vivek Dodiya**
 
-B.Tech ICT • DA-IICT
+**B.Tech ICT • DA-IICT**

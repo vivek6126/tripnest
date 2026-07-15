@@ -104,6 +104,14 @@ export async function updateReview({
 }) {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("Please login first.");
+  }
+
   const { error } = await supabase
     .from("reviews")
     .update({
@@ -111,7 +119,8 @@ export async function updateReview({
       comment,
       updated_at: new Date().toISOString(),
     })
-    .eq("id", reviewId);
+    .eq("id", reviewId)
+    .eq("user_id", user.id);
 
   if (error) throw error;
 }
@@ -121,10 +130,19 @@ export async function deleteReview(
 ) {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("Please login first.");
+  }
+
   const { error } = await supabase
     .from("reviews")
     .delete()
-    .eq("id", reviewId);
+    .eq("id", reviewId)
+    .eq("user_id", user.id);
 
   if (error) throw error;
 }

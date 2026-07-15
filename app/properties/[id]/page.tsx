@@ -134,11 +134,10 @@ const userReview =
     Reviews
   </h2>
 
-  {!userReview && (
-    <ReviewForm
-      propertyId={property.id}
-    />
-  )}
+ <ReviewForm
+  propertyId={property.id}
+  userReview={userReview}
+/>
 
   <ReviewList
     reviews={reviews}
