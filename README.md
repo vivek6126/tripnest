@@ -85,6 +85,9 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 - View My Bookings
 - Cancel Bookings
 - Protected Booking Actions
+- Booking Conflict Detection
+- Prevent Double Booking (Server-side)
+- Instant Date Availability Validation
 
 ---
 
@@ -199,6 +202,8 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 - Component Architecture
 - Responsive Design
 - Reusable UI Design
+- Server-side Validation
+- Client-side Form Validation
 
 ---
 
@@ -212,6 +217,8 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 - Wishlist System
 - Booking System
 - Booking Management
+- Booking Availability Validation
+- Double Booking Prevention
 - Review System (Create, Edit & Delete)
 - Dynamic Ratings
 - Protected Routes
@@ -222,8 +229,7 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 
 # 🚧 Roadmap
 
-- Prevent Double Booking
-- Property Availability Calendar
+- Interactive Availability Calendar
 - Image Gallery
 - Property Host Profiles
 - Booking History Filters

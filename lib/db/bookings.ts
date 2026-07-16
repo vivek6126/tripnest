@@ -101,3 +101,24 @@ export async function deleteBooking(
     throw error;
   }
 }
+
+
+export async function getBookedDates(
+  propertyId: number
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(`
+      check_in,
+      check_out
+    `)
+    .eq("property_id", propertyId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}

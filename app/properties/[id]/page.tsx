@@ -8,7 +8,7 @@ import {
   getAverageRating,
   getUserReview,
 } from "@/lib/db/reviews";
-
+import { getBookedDates } from "@/lib/db/bookings";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import ReviewList from "@/components/reviews/ReviewList";
 
@@ -32,7 +32,10 @@ const reviewSummary =
 
 const userReview =
   await getUserReview(property.id);
-  const wishlisted = await isWishlisted(property.id);
+const wishlisted = await isWishlisted(property.id);
+const bookedDates =
+  await getBookedDates(property.id);
+
 
   return (
     <main className="mx-auto max-w-6xl p-8">
@@ -147,11 +150,13 @@ const userReview =
 
   {/* Right Section */}
   <aside className="self-start">
-    <BookingCard
-      propertyId={property.id}
-      price={property.price}
-      rating={property.rating}
-    />
+   <BookingCard
+  propertyId={property.id}
+  price={property.price}
+  rating={property.rating}
+  maxGuests={property.guests}
+  bookedDates={bookedDates}
+/>
   </aside>
 </div>
     </main>
