@@ -26,6 +26,31 @@ export default function BookingCard({
 const totalPrice =
   nights * property.price;
 
+const today = new Date();
+
+today.setHours(0, 0, 0, 0);
+
+checkIn.setHours(0, 0, 0, 0);
+checkOut.setHours(0, 0, 0, 0);
+
+let status = "Upcoming";
+let badgeClasses =
+  "bg-green-100 text-green-700";
+
+if (
+  today >= checkIn &&
+  today < checkOut
+) {
+  status = "Ongoing";
+  badgeClasses =
+    "bg-blue-100 text-blue-700";
+}
+
+if (today >= checkOut) {
+  status = "Completed";
+  badgeClasses =
+    "bg-zinc-200 text-zinc-700";
+}
 
 return (
     <div className="rounded-xl border p-4 shadow-sm">
@@ -38,7 +63,17 @@ return (
       <h2 className="text-xl font-semibold">
         {property.title}
       </h2>
-
+      <div
+  className={`mt-2 inline-flex rounded-full px-3 py-1 text-sm font-semibold ${badgeClasses}`}
+>
+  {
+  status === "Upcoming"
+    ? "🟢 Upcoming"
+    : status === "Ongoing"
+    ? "🔵 Ongoing"
+    : "⚫ Completed"
+}
+</div>
       <p className="text-gray-600">
         📍 {property.location}
       </p>
