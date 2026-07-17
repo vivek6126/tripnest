@@ -11,6 +11,8 @@ import {
 import { getBookedDates } from "@/lib/db/bookings";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import ReviewList from "@/components/reviews/ReviewList";
+import PropertyGallery from "@/components/PropertyGallery";
+
 
 type PropertyPageProps = {
   params: Promise<{
@@ -40,13 +42,15 @@ const bookedDates =
   return (
     <main className="mx-auto max-w-6xl p-8">
       {/* Hero Image */}
-      <Image
-        src={property.image}
-        alt={property.title}
-        width={1200}
-        height={600}
-        className="h-[450px] w-full rounded-xl object-cover"
-      />
+      <PropertyGallery
+  images={[
+    property.image,
+    property.image,
+    property.image,
+    property.image,
+    property.image,
+  ]}
+/>
 
       {/* Property Header */}
 <div className="mt-8 flex flex-col gap-4">

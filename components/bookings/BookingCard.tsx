@@ -3,56 +3,23 @@ import CancelBookingButton from "./CancelBookingButton";
 import {
   calculateNights,
   formatDate,
+  getBookingStatus,
 } from "@/lib/utils/date";
-
 
 type BookingCardProps = {
   booking: BookingWithProperty;
 };
 
-
-export default function BookingCard({
-  booking,
-}: BookingCardProps) {
+export default function BookingCard({ booking }: BookingCardProps) {
   const property = booking.properties;
-  const checkIn = new Date(booking.check_in);
-  const checkOut = new Date(booking.check_out);
 
- const nights = calculateNights(
-  booking.check_in,
-  booking.check_out
-);
+  const nights = calculateNights(booking.check_in, booking.check_out);
 
-const totalPrice =
-  nights * property.price;
+  const totalPrice = nights * property.price;
 
-const today = new Date();
+  const bookingStatus = getBookingStatus(booking.check_in, booking.check_out);
 
-today.setHours(0, 0, 0, 0);
-
-checkIn.setHours(0, 0, 0, 0);
-checkOut.setHours(0, 0, 0, 0);
-
-let status = "Upcoming";
-let badgeClasses =
-  "bg-green-100 text-green-700";
-
-if (
-  today >= checkIn &&
-  today < checkOut
-) {
-  status = "Current Stay";
-  badgeClasses =
-    "bg-blue-100 text-blue-700";
-}
-
-if (today >= checkOut) {
-  status = "Completed";
-  badgeClasses =
-    "bg-zinc-200 text-zinc-700";
-}
-
-return (
+  return (
     <div className="rounded-xl border p-4 shadow-sm">
       <img
         src={property.image}
@@ -60,56 +27,53 @@ return (
         className="mb-4 h-52 w-full rounded-lg object-cover"
       />
 
-      <h2 className="text-xl font-semibold">
-        {property.title}
-      </h2>
+      <h2 className="text-xl font-semibold">{property.title}</h2>
       <div
-  className={`mt-2 inline-flex rounded-full px-3 py-1 text-sm font-semibold ${badgeClasses}`}
->
-  {
-  status === "Upcoming"
-    ? "🟢 Upcoming"
-    : status === "Current Stay"
-    ? "🔵 Current Stay"
-    : "⚫ Completed"
-}
-</div>
-      <p className="text-gray-600">
-        📍 {property.location}
-      </p>
-    <hr className="my-4" />
-        <p className="mt-4">
-            📅 {formatDate(booking.check_in)} →{" "}
-            {formatDate(booking.check_out)}
-        </p>
+        className={`mt-2 inline-flex rounded-full px-3 py-1 text-sm font-semibold ${bookingStatus.badgeClasses}`}
+      >
+        {bookingStatus.badge}
+      </div>
 
-        <p>
-            👥 {booking.guests} Guest
-            {booking.guests > 1 ? "s" : ""}
-        </p>
+      <div
+  className={`mt-3 rounded-xl border px-4 py-3 ${
+    bookingStatus.status === "Upcoming"
+      ? "border-green-200 bg-green-50"
+      : bookingStatus.status === "Current Stay"
+      ? "border-blue-200 bg-blue-50"
+      : "border-zinc-200 bg-zinc-50"
+  }`}
+>
+  <p className="text-sm font-semibold text-zinc-700">
+    {bookingStatus.message}
+  </p>
+</div>
+      <p className="text-gray-600">📍 {property.location}</p>
+      <hr className="my-4" />
+      <p className="mt-4">
+        📅 {formatDate(booking.check_in)} → {formatDate(booking.check_out)}
+      </p>
+
+      <p>
+        👥 {booking.guests} Guest
+        {booking.guests > 1 ? "s" : ""}
+      </p>
 
       <p className="mt-3">
-      🌙 {nights} night{nights > 1 ? "s" : ""}
+        🌙 {nights} night{nights > 1 ? "s" : ""}
       </p>
 
-    <p className="text-gray-600">
-      ₹{property.price} / night
-    </p>
-    <hr className="my-4" />
-    <p className="mt-2 text-lg font-bold">
-        Total: ₹{totalPrice}
-    </p>
-      {status === "Upcoming" ? (
-  <CancelBookingButton
-    bookingId={booking.id}
-  />
-) : (
-  <div className="mt-4 rounded-lg bg-zinc-100 p-3 text-center text-sm text-zinc-600">
-    {status === "Current Stay"
-      ? "This stay is currently in progress."
-      : "This booking has been completed."}
-  </div>
-)}
+      <p className="text-gray-600">₹{property.price} / night</p>
+      <hr className="my-4" />
+      <p className="mt-2 text-lg font-bold">Total: ₹{totalPrice}</p>
+      {bookingStatus.status === "Upcoming" ? (
+        <CancelBookingButton bookingId={booking.id} />
+      ) : (
+        <div className="mt-4 rounded-lg bg-zinc-100 p-3 text-center text-sm text-zinc-600">
+          {bookingStatus.status === "Current Stay"
+            ? "Enjoy your stay! We hope you're having a great trip."
+            : "This booking has been completed."}
+        </div>
+      )}
     </div>
   );
 }
