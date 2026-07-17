@@ -41,7 +41,7 @@ if (
   today >= checkIn &&
   today < checkOut
 ) {
-  status = "Ongoing";
+  status = "Current Stay";
   badgeClasses =
     "bg-blue-100 text-blue-700";
 }
@@ -69,8 +69,8 @@ return (
   {
   status === "Upcoming"
     ? "🟢 Upcoming"
-    : status === "Ongoing"
-    ? "🔵 Ongoing"
+    : status === "Current Stay"
+    ? "🔵 Current Stay"
     : "⚫ Completed"
 }
 </div>
@@ -99,9 +99,17 @@ return (
     <p className="mt-2 text-lg font-bold">
         Total: ₹{totalPrice}
     </p>
-      <CancelBookingButton
-        bookingId={booking.id}
-      />
+      {status === "Upcoming" ? (
+  <CancelBookingButton
+    bookingId={booking.id}
+  />
+) : (
+  <div className="mt-4 rounded-lg bg-zinc-100 p-3 text-center text-sm text-zinc-600">
+    {status === "Current Stay"
+      ? "This stay is currently in progress."
+      : "This booking has been completed."}
+  </div>
+)}
     </div>
   );
 }
