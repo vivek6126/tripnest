@@ -69,7 +69,7 @@ export default function BookingCard({ booking }: BookingCardProps) {
         <CancelBookingButton bookingId={booking.id} />
       ) : (
         <div className="mt-4 rounded-lg bg-zinc-100 p-3 text-center text-sm text-zinc-600">
-          {bookingStatus.status === "Current Stay"
+          {bookingStatus.status === "Ongoing"
             ? "Enjoy your stay! We hope you're having a great trip."
             : "This booking has been completed."}
         </div>

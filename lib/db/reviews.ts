@@ -169,3 +169,40 @@ export async function getUserReview(
 
   return data;
 }
+
+export async function getReviewCount(): Promise<number> {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return 0;
+
+  const { count, error } = await supabase
+    .from("reviews")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("user_id", user.id);
+
+  if (error) throw error;
+
+  return count ?? 0;
+}
+
+export async function getReviewsByUser(
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("id")
+    .eq("user_id", userId);
+
+  if (error) throw error;
+
+  return data;
+}

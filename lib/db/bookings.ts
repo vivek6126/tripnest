@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-
+import { calculateNights } from "@/lib/utils/date";
 
 type CreateBookingParams = {
   userId: string;
@@ -119,6 +119,75 @@ export async function getBookedDates(
   if (error) {
     throw error;
   }
+
+  return data;
+}
+
+export async function getBookingCount(
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const { count, error } = await supabase
+    .from("bookings")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("user_id", userId);
+
+  if (error) throw error;
+
+  return count ?? 0;
+}
+
+export async function getTotalSpent(
+  userId: string
+): Promise<number> {
+  const bookings = await getBookingsByUser(userId);
+
+  return bookings.reduce((total, booking) => {
+    const nights = calculateNights(
+      booking.check_in,
+      booking.check_out
+    );
+
+    return (
+      total +
+      booking.properties.price * nights
+    );
+  }, 0);
+}
+
+export async function getNextBooking(
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const today = new Date()
+    .toISOString()
+    .split("T")[0];
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(`
+      *,
+      properties (
+        id,
+        title,
+        image,
+        location
+      )
+    `)
+    .eq("user_id", userId)
+    .gte("check_in", today)
+    .order("check_in", {
+      ascending: true,
+    })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
 
   return data;
 }
