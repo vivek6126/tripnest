@@ -192,30 +192,28 @@ export async function getNextBooking(
   return data;
 }
 
-export async function getCurrentStay(
-  userId: string
-) {
+export async function getCurrentStays(userId: string) {
   const supabase = await createClient();
 
-  const today = new Date()
-    .toISOString()
-    .split("T")[0];
-
+  const today = new Date().toISOString().split("T")[0];
+  
   const { data, error } = await supabase
-    .from("bookings")
-    .select(`
-      *,
-      properties (
-        id,
-        title,
-        image,
-        location
-      )
-    `)
-    .eq("user_id", userId)
-    .lte("check_in", today)
-    .gt("check_out", today)
-    .maybeSingle();
+  .from("bookings")
+  .select(`
+    *,
+    properties (
+      id,
+      title,
+      image,
+      location
+    )
+  `)
+  .eq("user_id", userId)
+  .lte("check_in", today)
+  .gt("check_out", today)
+  .order("check_in", { ascending: true })
+  .limit(1)
+  .maybeSingle();
 
   if (error) throw error;
 

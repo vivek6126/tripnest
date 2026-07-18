@@ -11,7 +11,7 @@ import { createClient } from "@/lib/supabase/server";
 
 import {
   getBookingCount,
-  getCurrentStay,
+  getCurrentStays,
   getNextBooking,
   getTotalSpent,
 } from "@/lib/db/bookings";
@@ -46,7 +46,7 @@ export default async function DashboardPage() {
   getReviewsByUser(user.id),
   getTotalSpent(user.id),
   getNextBooking(user.id),
-  getCurrentStay(user.id),
+  getCurrentStays(user.id),
   getCurrentProfile(),
 ]);
 
