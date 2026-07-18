@@ -212,7 +212,19 @@ export async function getReviewsByUser(
     .eq("user_id", userId)
     .order("created_at", {
       ascending: false,
-    });
+    })
+    .returns<
+      {
+        id: number;
+        rating: number;
+        comment: string;
+        created_at: string;
+        property: {
+          id: number;
+          title: string;
+        };
+      }[]
+    >();
 
   if (error) throw error;
 

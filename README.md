@@ -104,6 +104,18 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 - Review Validation
 - Ownership Validation
 
+## 📊 Personal Dashboard
+
+- Personalized Dashboard
+- Booking Statistics
+- Total Amount Spent
+- Wishlist Summary
+- Review Summary
+- Current Stay Widget
+- Upcoming Booking Widget
+- Recent Reviews Widget
+- Quick Action Shortcuts
+
 ---
 
 ## 🎨 User Experience
@@ -204,38 +216,35 @@ Users can discover destinations, browse beautiful properties, save favorites, bo
 - Reusable UI Design
 - Server-side Validation
 - Client-side Form Validation
-
----
-
-# ✅ Completed Features
-
-- Authentication
-- User Profiles
-- Property Browsing
-- Property Details
-- Search & Filtering
-- Wishlist System
-- Booking System
-- Booking Management
-- Booking Availability Validation
-- Double Booking Prevention
-- Review System (Create, Edit & Delete)
-- Dynamic Ratings
-- Protected Routes
-- Responsive Navigation
-- Reusable UI Components
+- Dashboard Design
+- Data Aggregation
+- Parallel Data Fetching
+- Server-side Data Composition
 
 ---
 
 # 🚧 Roadmap
 
-- Interactive Availability Calendar
-- Image Gallery
-- Property Host Profiles
-- Booking History Filters
-- User Avatars
-- Admin Dashboard
+## High Priority
+
+- Payment Integration (Stripe)
+- Booking Payment Flow
+- Payment Success & Failure Handling
+- Booking Status Management
+
+## Medium Priority
+
+- Host Dashboard
+- Property Management
+- Property Listings
+- Booking Management for Hosts
+
+## Low Priority
+
 - Email Notifications
+- User Avatars
+- Property Host Profiles
+- Admin Dashboard
 - Deployment (Vercel)
 
 ---

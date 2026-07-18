@@ -36,21 +36,36 @@ export default function DashboardStats(
     <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       {stats.map((stat) => (
         <div
-          key={stat.label}
-          className="rounded-2xl border bg-white p-6 shadow-sm"
-        >
-          <p className="text-3xl">
-            {stat.icon}
-          </p>
+  key={stat.label}
+  className="
+    rounded-xl
+    border
+    bg-white
+    p-5
+    shadow-sm
+    transition-all
+    duration-200
+    hover:-translate-y-0.5
+    hover:border-blue-200
+    hover:shadow-md
+  "
+>
+  <div className="flex items-center justify-between">
+    <div>
+      <p className="text-sm text-zinc-500">
+        {stat.label}
+      </p>
 
-          <h3 className="mt-4 text-3xl font-bold">
-            {stat.value(props)}
-          </h3>
+      <h3 className="mt-1 text-2xl font-bold">
+        {stat.value(props)}
+      </h3>
+    </div>
 
-          <p className="mt-2 text-zinc-600">
-            {stat.label}
-          </p>
-        </div>
+    <span className="text-3xl">
+      {stat.icon}
+    </span>
+  </div>
+</div>
       ))}
     </section>
   );
