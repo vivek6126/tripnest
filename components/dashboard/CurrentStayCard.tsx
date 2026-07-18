@@ -1,32 +1,25 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 import { formatDate } from "@/lib/utils/date";
 
-type UpcomingBookingCardProps = {
+type CurrentStayCardProps = {
   booking: any;
 };
 
-export default function UpcomingBookingCard({
+export default function CurrentStayCard({
   booking,
-}: UpcomingBookingCardProps) {
+}: CurrentStayCardProps) {
   if (!booking) {
     return (
       <section className="rounded-2xl border bg-white p-6 shadow-sm">
         <h2 className="text-xl font-semibold">
-          📅 Your Next Trip
+          🏨 Current Stay
         </h2>
 
         <p className="mt-3 text-zinc-600">
-          You don't have any upcoming trips.
+          You're not currently staying anywhere.
         </p>
-
-        <Link
-          href="/search"
-          className="mt-5 inline-block rounded-xl bg-blue-600 px-5 py-3 text-white transition hover:bg-blue-700"
-        >
-          Explore Properties
-        </Link>
       </section>
     );
   }
@@ -34,7 +27,7 @@ export default function UpcomingBookingCard({
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
       <h2 className="mb-5 text-xl font-semibold">
-        📅 Your Next Trip
+        🏨 Current Stay
       </h2>
 
       <div className="flex gap-5">
@@ -57,12 +50,16 @@ export default function UpcomingBookingCard({
             </p>
 
             <p className="mt-3">
-              📅 {formatDate(booking.check_in)}
+              Check-in: {formatDate(booking.check_in)}
             </p>
 
             <p>
-              → {formatDate(booking.check_out)}
+              Check-out: {formatDate(booking.check_out)}
             </p>
+
+            <div className="mt-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+              🔵 Stay in Progress
+            </div>
           </div>
 
           <Link

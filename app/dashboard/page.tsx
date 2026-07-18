@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-
+import RecentReviewsCard from "@/components/dashboard/RecentReviewsCard";
 import { createClient } from "@/lib/supabase/server";
 import UpcomingBookingCard from "@/components/dashboard/UpcomingBookingCard";
-
-import { getNextBooking } from "@/lib/db/bookings";
+import CurrentStayCard from "@/components/dashboard/CurrentStayCard";
+import { getNextBooking, getCurrentStay } from "@/lib/db/bookings";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardStats from "@/components/dashboard/DashboardStats";
-
+import QuickActions from "@/components/dashboard/QuickActions"
 import { getBookingCount, getTotalSpent } from "@/lib/db/bookings";
 
 import { getWishlistCount } from "@/lib/db/wishlist";
@@ -24,14 +24,16 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  const [bookings, wishlist, reviews, totalSpent, nextBooking] =
+  const [bookings, wishlist, reviews, totalSpent, nextBooking, currentStay] =
     await Promise.all([
       getBookingCount(user.id),
       getWishlistCount(),
       getReviewsByUser(user.id),
       getTotalSpent(user.id),
       getNextBooking(user.id),
+      getCurrentStay(user.id),
     ]);
+    
 
   return (
     <main className="mx-auto max-w-7xl space-y-8 p-8">
@@ -43,7 +45,17 @@ export default async function DashboardPage() {
         reviews={reviews.length}
         totalSpent={totalSpent}
       />
-      <UpcomingBookingCard booking={nextBooking} />
+      
+      <div className="grid gap-6 lg:grid-cols-2">
+        <CurrentStayCard booking={currentStay} />
+        <UpcomingBookingCard booking={nextBooking} />
+      </div>
+
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <RecentReviewsCard reviews={reviews} />
+        <QuickActions /> 
+      </div>
     </main>
   );
 }

@@ -199,8 +199,20 @@ export async function getReviewsByUser(
 
   const { data, error } = await supabase
     .from("reviews")
-    .select("id")
-    .eq("user_id", userId);
+    .select(`
+      id,
+      rating,
+      comment,
+      created_at,
+      property:properties (
+        id,
+        title
+      )
+    `)
+    .eq("user_id", userId)
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (error) throw error;
 
