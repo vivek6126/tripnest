@@ -1,7 +1,8 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-
+import { getPropertyById } from "@/lib/db/properties";
+import { calculateNights } from "@/lib/utils/date";
 import { stripe } from "@/lib/stripe";
 import { adminClient } from "@/lib/supabase/admin";
 
@@ -35,7 +36,10 @@ export async function POST(request: Request) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object;
-
+      const paymentIntent =
+        typeof session.payment_intent === "string"
+          ? session.payment_intent
+          : (session.payment_intent?.id ?? null);
       const metadata = session.metadata;
 
       if (
@@ -49,7 +53,26 @@ export async function POST(request: Request) {
       }
 
       const { userId, propertyId, checkIn, checkOut, guests } = metadata;
+      
+      const property = await getPropertyById(Number(propertyId));
 
+      if (!property) {
+        throw new Error("Property not found.");
+      }
+
+      const nights = calculateNights(checkIn, checkOut);
+
+      const expectedAmount = property.price * nights * 100;
+
+      const stripeAmount = session.amount_total;
+
+      if (stripeAmount !== expectedAmount) {
+        throw new Error(
+          `Payment amount mismatch.
+            Expected ₹${expectedAmount / 100},
+            received ₹${stripeAmount! / 100}.`,
+        );
+      }
       const { error } = await adminClient.rpc("process_stripe_checkout", {
         p_event_id: event.id,
         p_user_id: userId,
@@ -57,6 +80,9 @@ export async function POST(request: Request) {
         p_check_in: checkIn,
         p_check_out: checkOut,
         p_guests: Number(guests),
+
+        p_checkout_session_id: session.id,
+        p_payment_intent: paymentIntent,
       });
 
       if (error) {
