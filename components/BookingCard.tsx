@@ -27,21 +27,14 @@ export default function BookingCard({
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
   const [isBooking, setIsBooking] = useState(false);
-  const [showSuccessDialog, setShowSuccessDialog] =
-    useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
 
-  function hasOverlap(
-    start: string,
-    end: string
-  ) {
-  return bookedDates.some((booking) => {
-    return (
-      start < booking.check_out &&
-      end > booking.check_in
-    );
-  });
+  function hasOverlap(start: string, end: string) {
+    return bookedDates.some((booking) => {
+      return start < booking.check_out && end > booking.check_in;
+    });
   }
   const minimumCheckoutDate = (() => {
     if (!checkIn) return today;
@@ -55,32 +48,21 @@ export default function BookingCard({
   const checkInDate = new Date(checkIn);
   const checkOutDate = new Date(checkOut);
 
-  const difference =
-    checkOutDate.getTime() -
-    checkInDate.getTime();
+  const difference = checkOutDate.getTime() - checkInDate.getTime();
 
-  const nights =
-    checkIn && checkOut
-      ? difference / (1000 * 60 * 60 * 24)
-      : 0;
+  const nights = checkIn && checkOut ? difference / (1000 * 60 * 60 * 24) : 0;
 
   const totalPrice = nights * price;
-  const datesAvailable =
-    checkIn &&
-    checkOut &&
-    !hasOverlap(checkIn, checkOut);
-  
-    const isBookingValid =
-  checkIn !== "" &&
-  checkOut !== "" &&
-  nights > 0 &&
-  datesAvailable;
+  const datesAvailable = checkIn && checkOut && !hasOverlap(checkIn, checkOut);
+
+  const isBookingValid =
+    checkIn !== "" && checkOut !== "" && nights > 0 && datesAvailable;
 
   async function handleBooking() {
     setIsBooking(true);
 
     try {
-      const response = await fetch("/api/bookings", {
+      const response = await fetch("/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,10 +78,10 @@ export default function BookingCard({
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message);
+        throw new Error(result.error);
       }
 
-      setShowSuccessDialog(true);
+      window.location.href = result.url;
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -113,13 +95,9 @@ export default function BookingCard({
     <aside className="sticky top-24 rounded-3xl border border-zinc-200 bg-white p-8 shadow-xl">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-4xl font-bold tracking-tight">
-            ₹{price}
-          </p>
+          <p className="text-4xl font-bold tracking-tight">₹{price}</p>
 
-          <p className="text-sm text-zinc-500">
-            per night
-          </p>
+          <p className="text-sm text-zinc-500">per night</p>
         </div>
 
         <div className="rounded-full bg-yellow-100 px-3 py-2 text-sm font-semibold text-yellow-800">
@@ -129,10 +107,7 @@ export default function BookingCard({
 
       <div className="mt-6 space-y-4">
         <div>
-          <label
-            htmlFor="check-in"
-            className="mb-1 block text-sm font-medium"
-          >
+          <label htmlFor="check-in" className="mb-1 block text-sm font-medium">
             Check-in
           </label>
 
@@ -142,18 +117,11 @@ export default function BookingCard({
             min={today}
             value={checkIn}
             onChange={(event) => {
-              const selectedDate = new Date(
-                event.target.value
-              );
+              const selectedDate = new Date(event.target.value);
 
-              selectedDate.setDate(
-                selectedDate.getDate() + 1
-              );
+              selectedDate.setDate(selectedDate.getDate() + 1);
 
-              const nextDay =
-                selectedDate
-                  .toISOString()
-                  .split("T")[0];
+              const nextDay = selectedDate.toISOString().split("T")[0];
 
               setCheckIn(event.target.value);
               setCheckOut(nextDay);
@@ -163,10 +131,7 @@ export default function BookingCard({
         </div>
 
         <div>
-          <label
-            htmlFor="check-out"
-            className="mb-1 block text-sm font-medium"
-          >
+          <label htmlFor="check-out" className="mb-1 block text-sm font-medium">
             Check-out
           </label>
 
@@ -175,18 +140,13 @@ export default function BookingCard({
             type="date"
             min={minimumCheckoutDate}
             value={checkOut}
-            onChange={(event) =>
-              setCheckOut(event.target.value)
-            }
+            onChange={(event) => setCheckOut(event.target.value)}
             className="w-full rounded-xl border border-zinc-300 px-4 py-3 transition focus:border-blue-500 focus:outline-none"
           />
         </div>
 
         <div>
-          <label
-            htmlFor="guests"
-            className="mb-1 block text-sm font-medium"
-          >
+          <label htmlFor="guests" className="mb-1 block text-sm font-medium">
             Guests
           </label>
 
@@ -194,28 +154,18 @@ export default function BookingCard({
             <button
               type="button"
               disabled={guests === 1}
-              onClick={() =>
-                setGuests((prev) =>
-                  Math.max(1, prev - 1)
-                )
-              }
+              onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 transition hover:bg-zinc-100 disabled:opacity-40"
             >
               -
             </button>
 
-            <span className="w-8 text-center font-semibold">
-              {guests}
-            </span>
+            <span className="w-8 text-center font-semibold">{guests}</span>
 
             <button
               type="button"
               disabled={guests >= maxGuests}
-              onClick={() =>
-                setGuests((prev) =>
-                  Math.min(maxGuests, prev + 1)
-                )
-              }
+              onClick={() => setGuests((prev) => Math.min(maxGuests, prev + 1))}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 transition hover:bg-zinc-100 disabled:opacity-40"
             >
               +
@@ -232,8 +182,7 @@ export default function BookingCard({
         <div className="mt-6 space-y-3 border-t border-zinc-200 pt-5">
           <div className="flex justify-between text-zinc-700">
             <span>
-              ₹{price} × {nights}{" "}
-              {nights === 1 ? "night" : "nights"}
+              ₹{price} × {nights} {nights === 1 ? "night" : "nights"}
             </span>
 
             <span>₹{totalPrice}</span>
@@ -253,22 +202,17 @@ export default function BookingCard({
         </div>
       )}
 
-      {!datesAvailable &&
-  checkIn &&
-  checkOut && (
-    <p className="mt-4 text-sm text-red-500">
-      These dates are already booked.
-      Please choose different dates.
-    </p>
-)}
+      {!datesAvailable && checkIn && checkOut && (
+        <p className="mt-4 text-sm text-red-500">
+          These dates are already booked. Please choose different dates.
+        </p>
+      )}
 
-{datesAvailable &&
-  !isBookingValid && (
-    <p className="mt-4 text-sm text-red-500">
-      Please select valid check-in and
-      check-out dates.
-    </p>
-)}
+      {datesAvailable && !isBookingValid && (
+        <p className="mt-4 text-sm text-red-500">
+          Please select valid check-in and check-out dates.
+        </p>
+      )}
 
       <button
         type="button"
@@ -276,9 +220,7 @@ export default function BookingCard({
         onClick={handleBooking}
         className="mt-8 w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
       >
-        {isBooking
-          ? "Booking..."
-          : "Reserve Now"}
+        {isBooking ? "Booking..." : "Reserve Now"}
       </button>
 
       <SuccessDialog
@@ -289,9 +231,7 @@ export default function BookingCard({
         primaryText="View My Bookings"
         secondaryText="Continue Browsing"
         primaryHref="/bookings"
-        onSecondary={() =>
-          setShowSuccessDialog(false)
-        }
+        onSecondary={() => setShowSuccessDialog(false)}
       />
     </aside>
   );

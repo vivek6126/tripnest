@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { calculateNights } from "@/lib/utils/date";
+import type { Property } from "@/lib/api/properties";
 
 type CreateBookingParams = {
   userId: string;
@@ -18,23 +19,18 @@ export async function createBooking({
 }: CreateBookingParams) {
   const supabase = await createClient();
 
-  const { data: existingBookings, error: checkError } =
-    await supabase
-      .from("bookings")
-      .select("id")
-      .eq("property_id", propertyId)
-      .lt("check_in", checkOut)
-      .gt("check_out", checkIn);
+  const available = await checkBookingAvailability(
+  propertyId,
+  checkIn,
+  checkOut
+);
 
-  if (checkError) {
-    throw checkError;
-  }
+if (!available) {
+  throw new Error(
+    "Property is already booked for these dates."
+  );
+}
 
-  if (existingBookings.length > 0) {
-    throw new Error(
-      "Property is already booked for these dates."
-    );
-  }
 
   const { data, error } = await supabase
     .from("bookings")
@@ -55,14 +51,13 @@ export async function createBooking({
   return data;
 }
 
-export async function getBookingsByUser(
-  userId: string
-) {
+export async function getBookingsByUser(userId: string) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("bookings")
-    .select(`
+    .select(
+      `
       *,
       properties (
         id,
@@ -71,7 +66,8 @@ export async function getBookingsByUser(
         location,
         price
       )
-    `)    
+    `,
+    )
     .eq("user_id", userId)
     .order("created_at", {
       ascending: false,
@@ -84,11 +80,7 @@ export async function getBookingsByUser(
   return data;
 }
 
-
-export async function deleteBooking(
-  bookingId: number,
-  userId: string
-) {
+export async function deleteBooking(bookingId: number, userId: string) {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -102,18 +94,17 @@ export async function deleteBooking(
   }
 }
 
-
-export async function getBookedDates(
-  propertyId: number
-) {
+export async function getBookedDates(propertyId: number) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("bookings")
-    .select(`
+    .select(
+      `
       check_in,
       check_out
-    `)
+    `,
+    )
     .eq("property_id", propertyId);
 
   if (error) {
@@ -123,9 +114,7 @@ export async function getBookedDates(
   return data;
 }
 
-export async function getBookingCount(
-  userId: string
-) {
+export async function getBookingCount(userId: string) {
   const supabase = await createClient();
 
   const { count, error } = await supabase
@@ -141,36 +130,25 @@ export async function getBookingCount(
   return count ?? 0;
 }
 
-export async function getTotalSpent(
-  userId: string
-): Promise<number> {
+export async function getTotalSpent(userId: string): Promise<number> {
   const bookings = await getBookingsByUser(userId);
 
   return bookings.reduce((total, booking) => {
-    const nights = calculateNights(
-      booking.check_in,
-      booking.check_out
-    );
+    const nights = calculateNights(booking.check_in, booking.check_out);
 
-    return (
-      total +
-      booking.properties.price * nights
-    );
+    return total + booking.properties.price * nights;
   }, 0);
 }
 
-export async function getNextBooking(
-  userId: string
-) {
+export async function getNextBooking(userId: string) {
   const supabase = await createClient();
 
-  const today = new Date()
-    .toISOString()
-    .split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
   const { data, error } = await supabase
     .from("bookings")
-    .select(`
+    .select(
+      `
       *,
       properties (
         id,
@@ -178,7 +156,8 @@ export async function getNextBooking(
         image,
         location
       )
-    `)
+    `,
+    )
     .eq("user_id", userId)
     .gt("check_in", today)
     .order("check_in", {
@@ -196,10 +175,11 @@ export async function getCurrentStays(userId: string) {
   const supabase = await createClient();
 
   const today = new Date().toISOString().split("T")[0];
-  
+
   const { data, error } = await supabase
-  .from("bookings")
-  .select(`
+    .from("bookings")
+    .select(
+      `
     *,
     properties (
       id,
@@ -207,15 +187,38 @@ export async function getCurrentStays(userId: string) {
       image,
       location
     )
-  `)
-  .eq("user_id", userId)
-  .lte("check_in", today)
-  .gt("check_out", today)
-  .order("check_in", { ascending: true })
-  .limit(1)
-  .maybeSingle();
+  `,
+    )
+    .eq("user_id", userId)
+    .lte("check_in", today)
+    .gt("check_out", today)
+    .order("check_in", { ascending: true })
+    .limit(1)
+    .maybeSingle();
 
   if (error) throw error;
 
   return data;
+}
+
+
+export async function checkBookingAvailability(
+  propertyId: number,
+  checkIn: string,
+  checkOut: string
+): Promise<boolean> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("property_id", propertyId)
+    .lt("check_in", checkOut)
+    .gt("check_out", checkIn);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.length === 0;
 }
