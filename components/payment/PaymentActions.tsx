@@ -11,7 +11,7 @@ export default function PaymentActions() {
       </Link>
 
       <Link
-        href="/properties"
+        href="/search"
         className="rounded-xl border px-6 py-3 text-center font-medium transition hover:bg-zinc-100"
       >
         Continue Browsing

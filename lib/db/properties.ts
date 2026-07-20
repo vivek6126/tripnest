@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import type { Property } from "@/lib/api/properties";
 
 type PropertyFilters = {
@@ -13,6 +13,7 @@ type PropertyFilters = {
 export async function getPropertiesFromDB(
   filters: PropertyFilters = {}
 ): Promise<Property[]> {
+   const supabase = await createClient();
   let query = supabase
     .from("properties")
     .select("*");
@@ -73,6 +74,7 @@ if (!filters.category) {
 export async function getPropertyById(
   id: number
 ): Promise<Property> {
+   const supabase = await createClient();
   const { data, error } = await supabase
     .from("properties")
     .select("*")

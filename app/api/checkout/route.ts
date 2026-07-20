@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     const { propertyId, checkIn, checkOut, guests } = body;
 
-    if (!propertyId || !checkIn || !checkOut || !guests) {
+    if (!propertyId || !checkIn || !checkOut || guests == null) {
       return NextResponse.json(
         {
           error: "Missing required fields.",
@@ -31,7 +31,72 @@ export async function POST(request: Request) {
       );
     }
 
+    const guestCount = Number(guests);
+
+    if (!Number.isInteger(guestCount) || guestCount < 1) {
+      return NextResponse.json(
+        {
+          error: "Invalid guest count.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+
+    if (
+      Number.isNaN(checkInDate.getTime()) ||
+      Number.isNaN(checkOutDate.getTime())
+    ) {
+      return NextResponse.json(
+        {
+          error: "Invalid booking dates.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (checkInDate >= checkOutDate) {
+      return NextResponse.json(
+        {
+          error: "Check-out must be after check-in.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (checkInDate < today) {
+      return NextResponse.json(
+        {
+          error: "Check-in date cannot be in the past.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
     const property = await getPropertyById(propertyId);
+    if (guestCount > property.guests) {
+      return NextResponse.json(
+        {
+          error: `Maximum ${property.guests} guests allowed.`,
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     if (!property) {
       return NextResponse.json(
         {
@@ -74,7 +139,7 @@ export async function POST(request: Request) {
     }
 
     const totalAmount = property.price * nights;
-    const stripeAmount = totalAmount * 100;
+    const stripeAmount = Math.round(totalAmount * 100);
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -89,7 +154,7 @@ export async function POST(request: Request) {
         checkOut,
         guests: guests.toString(),
       },
-      
+
       line_items: [
         {
           quantity: 1,
@@ -112,7 +177,7 @@ export async function POST(request: Request) {
 
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/properties/${property.id}`,
     });
-    
+
     return NextResponse.json({
       url: session.url,
     });
