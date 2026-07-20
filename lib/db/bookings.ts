@@ -222,3 +222,55 @@ export async function checkBookingAvailability(
 
   return data.length === 0;
 }
+
+export async function getLatestPaidBooking(
+  userId: string
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(`
+      *,
+      properties (
+        *
+      )
+    `)
+    .eq("user_id", userId)
+    .eq("payment_status", "paid")
+    .order("created_at", {
+      ascending: false,
+    })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function getBookingByCheckoutSession(
+  sessionId: string
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(`
+      *,
+      properties (
+        *
+      )
+    `)
+    .eq("stripe_checkout_session_id", sessionId)
+    .eq("payment_status", "paid")
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
