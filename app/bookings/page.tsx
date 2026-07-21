@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getBookingsByUser } from "@/lib/db/bookings";
-import BookingCard from "@/components/bookings/BookingCard";
+
 import BookingList from "@/components/bookings/BookingList";
 
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
+import { Suspense } from "react";
+import NProgressProvider from "@/components/NProgressProvider";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
@@ -71,16 +72,22 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white">
+        <body className="min-h-full bg-white">
+          <Suspense fallback={null}>
+  <NProgressProvider />
+</Suspense>
+
+          <Navbar />
+
+          <main className="flex-1">{children}</main>
+
+          <Toaster richColors position="top-right" />
+        </body>
         <Navbar />
 
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
 
-        <Toaster
-          richColors
-          position="top-right"
-        />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

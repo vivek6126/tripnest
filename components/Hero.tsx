@@ -1,15 +1,22 @@
 import SearchBar from "./SearchBar";
+import Image from "next/image";
+
 
 export default function Hero() {
   return (
    <section className="relative overflow-hidden">
   {/* Hero Image */}
-  <div
-    className="relative h-[75vh] bg-cover bg-center"
-    style={{
-      backgroundImage: "url('/test.jpg')",
-    }}
-  >
+  <div className="relative h-[75vh]">
+  <Image
+    src="/test.jpg"
+    alt="TripNest Hero"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover"
+  />
+
+
     {/* Dark Overlay */}
     <div className="absolute inset-0 bg-black/40" />
 

@@ -1,262 +1,109 @@
 # TripNest ✈️
 
-TripNest is a modern full-stack hotel booking platform inspired by Airbnb and Booking.com.
+TripNest is a modern full-stack hotel booking platform inspired by Airbnb and Booking.com. It enables users to discover destinations, browse properties, save favorites, securely book stays with Stripe Checkout, leave reviews, and manage their trips through a fast and responsive interface.
 
-Users can discover destinations, browse beautiful properties, save favorites, book stays, leave reviews, personalize their profile, and manage their trips through a fast, responsive interface powered by Next.js and Supabase.
+## 🌐 Live Demo
 
----
-
-# 🚀 Features
-
-## 🔐 Authentication
-
-- User Signup & Login
-- Secure Logout
-- Supabase Authentication
-- Supabase SSR
-- Server-side Session Handling
-- Protected Routes
-- Protected API Routes
-- Persistent Login Sessions
+https://tripnest-by-vivek.vercel.app
 
 ---
 
-## 👤 User Profiles
+## 📸 Screenshots
 
-- Automatic Profile Creation
-- Edit Profile Information
-- Full Name Support
-- Profile Page
-- Reviewer Identity
-- Profile API
-- Server-side Profile Fetching
+| Home | Search |
+|------|--------|
+| ![](public/screenshots/home.png) | ![](public/screenshots/search.png) |
 
----
-
-## 🏡 Property Browsing
-
-- Browse Featured Properties
-- Dynamic Property Pages
-- Property Categories
-- Beach Stays
-- Mountain Retreats
-- Luxury Escapes
-- Property Details
-- Amenities
-- Guest Capacity
-- Bedrooms & Bathrooms
-- Dynamic Ratings
-- Responsive Property Cards
+| Dashboard | Booking |
+|----------|-----------|
+| ![](public/screenshots/dashboard.PNG) | ![](public/screenshots/booking.png) |
 
 ---
 
-## 🔍 Search & Filtering
+## ✨ Features
 
-- Search by Destination
-- URL-based Search
-- Dynamic Search Results
-- Filter by Destination
-- Filter by Price
-- Filter by Bedrooms
-- Filter by Minimum Rating
-
----
-
-## ❤️ Wishlist
-
-- Add Properties to Wishlist
-- Remove Properties from Wishlist
-- Persistent Favorites
-- Wishlist Page
-- Wishlist Counter
-- Authentication Protected
-- Real-time Wishlist Status
+- 🔐 Secure authentication with Supabase
+- 👤 User profile management
+- 🏡 Browse featured properties
+- 🔍 Search and advanced filters
+- ❤️ Wishlist system
+- 📅 Booking system with conflict detection
+- 💳 Stripe Checkout integration
+- ⭐ Reviews and ratings
+- 📊 Personalized dashboard
+- 📱 Fully responsive Airbnb-inspired UI
 
 ---
 
-## 📅 Booking System
+## 🛠 Tech Stack
 
-- Check-in & Check-out Selection
-- Guest Selection
-- Automatic Night Calculation
-- Live Price Calculation
-- Booking Confirmation Dialog
-- Store Bookings in Database
-- View My Bookings
-- Cancel Bookings
-- Protected Booking Actions
-- Booking Conflict Detection
-- Prevent Double Booking (Server-side)
-- Instant Date Availability Validation
-
----
-
-## ⭐ Reviews & Ratings
-
-- Leave Reviews
-- Edit Reviews
-- Delete Reviews
-- Reviewer Profile Names
-- One Review Per User
-- Duplicate Review Prevention
-- Dynamic Average Rating
-- Dynamic Review Count
-- Review Validation
-- Ownership Validation
-
-## 📊 Personal Dashboard
-
-- Personalized Dashboard
-- Booking Statistics
-- Total Amount Spent
-- Wishlist Summary
-- Review Summary
-- Current Stay Widget
-- Upcoming Booking Widget
-- Recent Reviews Widget
-- Quick Action Shortcuts
-
----
-
-## 🎨 User Experience
-
-- Fully Responsive Design
-- Sticky Navigation Bar
-- Active Navigation Highlight
-- Modern Airbnb-inspired UI
-- Toast Notifications
-- Loading States
-- Empty States
-- Reusable Components
-- Shared Dialog Components
-- shadcn/ui Components
-- Smooth Hover Animations
-
----
-
-# 🛠 Tech Stack
-
-## Frontend
+### Frontend
 
 - Next.js 15 (App Router)
 - React
 - TypeScript
 - Tailwind CSS v4
 - shadcn/ui
-- Lucide React
 
-## Backend
+### Backend
 
 - Next.js Route Handlers
 - Supabase
 
-## Database
+### Database
 
-- PostgreSQL
-- Supabase Database
+- PostgreSQL (Supabase)
 
-## Authentication
+### Authentication
 
 - Supabase Auth
 - Supabase SSR
 
-## Libraries
+### Payments
 
-- Sonner
-- Lucide React
-
-## Development Tools
-
-- Git
-- GitHub
-- ESLint
-- Prettier
+- Stripe Checkout
+- Stripe Webhooks
 
 ---
 
-# 🗄 Database Schema
+## 🚀 Run Locally
 
-- Properties
-- Profiles
-- Bookings
-- Wishlists
-- Reviews
+```bash
+git clone <repository-url>
 
----
+cd tripnest
 
-# 🔗 Database Relationships
+npm install
 
-- One User → One Profile
-- One User → Many Bookings
-- One User → Many Reviews
-- One User → Many Wishlist Items
-
-- One Property → Many Bookings
-- One Property → Many Reviews
-- One Property → Many Wishlist Entries
+npm run dev
+```
 
 ---
 
-# 📚 Concepts Practiced
+## 🔐 Environment Variables
 
-- Next.js App Router
-- Server Components
-- Client Components
-- Route Handlers
-- Authentication & Authorization
-- CRUD Operations
-- PostgreSQL
-- Supabase
-- Supabase SSR
-- Row Level Security (RLS)
-- Database Relationships
-- TypeScript
-- Component Architecture
-- Responsive Design
-- Reusable UI Design
-- Server-side Validation
-- Client-side Form Validation
-- Dashboard Design
-- Data Aggregation
-- Parallel Data Fetching
-- Server-side Data Composition
+```env
+NEXT_PUBLIC_APP_URL
+
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+```
 
 ---
 
-# 🚧 Roadmap
+## 👨‍💻 Author
 
-## High Priority
+**Vivek Dodiya**
 
-- Payment Integration (Stripe)
-- Booking Payment Flow
-- Payment Success & Failure Handling
-- Booking Status Management
-
-## Medium Priority
-
-- Host Dashboard
-- Property Management
-- Property Listings
-- Booking Management for Hosts
-
-## Low Priority
-
-- Email Notifications
-- User Avatars
-- Property Host Profiles
-- Admin Dashboard
-- Deployment (Vercel)
+B.Tech ICT • DA-IICT
 
 ---
 
-# 📸 Screenshots
+## 📄 License
 
-> Screenshots and demo GIFs will be added after deployment.
-
----
-
-# 👨‍💻 Author
-
-Built with ❤️ by **Vivek Dodiya**
-
-**B.Tech ICT • DA-IICT**
+This project is licensed under the MIT License.

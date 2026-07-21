@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import { getPropertyById } from "@/lib/db/properties";
 import BookingCard from "@/components/BookingCard";
 import WishlistButton from "@/components/WishlistButton";

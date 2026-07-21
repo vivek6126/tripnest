@@ -5,6 +5,8 @@ import {
   formatDate,
   getBookingStatus,
 } from "@/lib/utils/date";
+import Image from "next/image";
+
 
 type BookingCardProps = {
   booking: BookingWithProperty;
@@ -21,11 +23,13 @@ export default function BookingCard({ booking }: BookingCardProps) {
 
   return (
     <div className="rounded-xl border p-4 shadow-sm">
-      <img
-        src={property.image}
-        alt={property.title}
-        className="mb-4 h-52 w-full rounded-lg object-cover"
-      />
+      <Image
+  src={property.image}
+  alt={property.title}
+  width={400}
+  height={250}
+  className="mb-4 h-52 w-full rounded-lg object-cover"
+/>
 
       <h2 className="text-xl font-semibold">{property.title}</h2>
       <div

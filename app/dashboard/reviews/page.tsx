@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getReviewsByUser } from "@/lib/db/reviews";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
+
 import ReviewCard from "@/components/dashboard/ReviewCard";
 
 export default async function ReviewsPage() {
