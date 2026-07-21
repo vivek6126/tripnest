@@ -7,7 +7,7 @@ export default function Hero() {
   <div
     className="relative h-[75vh] bg-cover bg-center"
     style={{
-      backgroundImage: "url('/hero.jpg')",
+      backgroundImage: "url('/test.jpg')",
     }}
   >
     {/* Dark Overlay */}
