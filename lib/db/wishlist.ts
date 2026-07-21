@@ -35,11 +35,20 @@ export async function addToWishlist(
   }
 
   const { error } = await supabase
-    .from("wishlists")
-    .insert({
-      user_id: user.id,
-      property_id: propertyId,
-    });
+  .from("wishlists")
+  .insert({
+    user_id: user.id,
+    property_id: propertyId,
+  });
+
+if (error) {
+  // Already wishlisted
+  if (error.code === "23505") {
+    return;
+  }
+
+  throw error;
+}
 
   if (error) throw error;
 }

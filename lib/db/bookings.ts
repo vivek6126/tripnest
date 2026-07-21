@@ -255,7 +255,13 @@ export async function getBookingByCheckoutSession(
   sessionId: string
 ) {
   const supabase = await createClient();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
+if (!user) {
+  return null;
+}
   const { data, error } = await supabase
     .from("bookings")
     .select(`
@@ -265,6 +271,7 @@ export async function getBookingByCheckoutSession(
       )
     `)
     .eq("stripe_checkout_session_id", sessionId)
+    .eq("user_id", user.id)
     .eq("payment_status", "paid")
     .maybeSingle();
 

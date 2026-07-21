@@ -15,16 +15,20 @@ export async function POST(request: Request) {
       success: true,
     });
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong.",
-      },
-      { status: 400 }
-    );
-  }
+  console.error(error);
+
+  return NextResponse.json(
+    {
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unknown error",
+    },
+    {
+      status: 400,
+    },
+  );
+}
 }
 
 export async function DELETE(request: Request) {

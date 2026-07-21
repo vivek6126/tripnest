@@ -17,9 +17,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TripNest",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+
+  title: {
+    default: "TripNest",
+    template: "%s | TripNest",
+  },
+
   description:
-    "Discover and book unforgettable travel experiences.",
+    "TripNest is a modern hotel booking platform where you can discover, wishlist, review, and securely book stays with real-time availability and Stripe payments.",
+
+  keywords: [
+    "hotel booking",
+    "travel",
+    "vacation",
+    "next.js",
+    "supabase",
+    "stripe",
+    "tripnest",
+  ],
+
+  authors: [
+    {
+      name: "Vivek Dodiya",
+    },
+  ],
+
+  openGraph: {
+    title: "TripNest",
+    description:
+      "Discover, wishlist, review, and securely book beautiful stays with TripNest.",
+    url: process.env.NEXT_PUBLIC_APP_URL,
+    siteName: "TripNest",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "TripNest",
+    description:
+      "Discover, wishlist, review, and securely book beautiful stays.",
+  },
 };
 
 export default function RootLayout({
